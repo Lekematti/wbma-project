@@ -6,6 +6,7 @@ import {mediaUrl} from '../utils/app-config';
 import {Button, Card, Icon, ListItem} from '@rneui/themed';
 import ProfileForm from '../components/ProfileForm';
 import {ScrollView} from 'react-native';
+import ThemeToggleButton from "../utils/ThemeToggleButton";
 
 const Profile = (props) => {
   const [avatar, setAvatar] = useState('http://placekitten.com/640');
@@ -57,8 +58,10 @@ const Profile = (props) => {
         <Icon name="logout" color="white" />
       </Button>
       <ProfileForm />
+      <ThemeToggleButton />
     </Card>
     </ScrollView>
+
   );
 };
 
