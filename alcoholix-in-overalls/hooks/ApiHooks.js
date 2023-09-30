@@ -147,6 +147,7 @@ const useTag = () => {
 
 const useFavourite = () => {
   const postFavourite = async (favourite, token) => {
+    console.log(favourite);
     const options = {
       method: 'POST',
       headers: {
@@ -190,10 +191,51 @@ const useFavourite = () => {
   };
 }
 
+const useRating = () => {
+  const postRating = async (rating, token) => {
+     console.log(rating);
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+      body: JSON.stringify(rating),
+    };
+    return await doFetch(apiUrl + 'ratings', options);
+  };
+
+
+  const getRatingsById = async (id, token) => {
+    const options = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+      body: JSON.stringify(token),
+    };
+    return await doFetch(apiUrl + 'ratings/file/' + id);
+  };
+
+  const getRatingsByToken = async (token) => {
+    const options = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    return await doFetch(apiUrl + 'ratings', options);
+  };
+
+  return {
+    postRating,
+    getRatingsById,
+    getRatingsByToken,
+  };
+}
 
 
 
 
 
-
-export {useMedia, useAuthentication, useUser, useTag, useFavourite,};
+export {useMedia, useAuthentication, useUser, useTag, useFavourite, useRating};

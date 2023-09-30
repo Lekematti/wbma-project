@@ -2,46 +2,32 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {mediaUrl} from '../utils/app-config';
 import {formatDate} from '../utils/functions';
-import {Card, Icon, Text, ListItem, Button} from '@rneui/themed';
+import {Card, Icon, Text, ListItem, Button, Rating} from '@rneui/themed';
 import {Video} from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useFavourite, useTag, useUser} from '../hooks/ApiHooks';
+import {useFavourite, useRating, useUser} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import {ScrollView} from 'react-native';
-import Rating from '../utils/Rating'; // Import the Rating component
+
 
 
 
 const Single = ({route, navigation}) => {
   const [owner, setOwner] = useState({});
   const [userLike, setUserLike] = useState(false);
+  const [userRating, setUserRating] = useState(false)
   const {user} = useContext(MainContext);
   const {getUserById} = useUser();
   const {postFavourite, getFavouritesById, deleteFavourite} = useFavourite();
+  const {postRating, getRatingsById, } = useRating();
   const [likes, setLikes] = useState([]);
+  const [ratings, setRatings] = useState([]);
+  const [averageRating, setAverageRating] = useState(false);
+
+
 
   const videoRef = useRef(null);
-
-
-  const { postId } = route.params; // Assuming postId is passed via route.params
-  const { getFilesByTag } = useTag(); // Import the useTag hook or your API function for fetching tags
-  const [tags, setTags] = useState([]); // State to store tags associated with the post
-
-  useEffect(() => {
-    // Fetch all tags associated with the post
-    const fetchTags = async () => {
-      try {
-        const response = await getFilesByTag(`file_${postId}`);
-        setTags(response);
-      } catch (error) {
-        console.error('Error fetching tags:', error);
-      }
-    };
-    fetchTags();
-  }, [postId]);
-
-
 
   const {
     title,
@@ -115,7 +101,7 @@ const Single = ({route, navigation}) => {
   const lockOrientation = async () => {
     try {
       await ScreenOrientation.lockAsync(
-        ScreenOrientation.OrientationLock.PORTRAIT_UP,
+          ScreenOrientation.OrientationLock.PORTRAIT_UP,
       );
     } catch (error) {
       console.error(error.message);
@@ -136,11 +122,11 @@ const Single = ({route, navigation}) => {
 
     // fullscreen video on landscape
     const orientSub = ScreenOrientation.addOrientationChangeListener(
-      (event) => {
-        if (event.orientationInfo.orientation > 2) {
-          videoRef.current && showVideoInFullscreen();
-        }
-      },
+        (event) => {
+          if (event.orientationInfo.orientation > 2) {
+            videoRef.current && showVideoInFullscreen();
+          }
+        },
     );
 
     return () => {
@@ -154,88 +140,117 @@ const Single = ({route, navigation}) => {
   }, [userLike]);
 
 
+  // add favourite
+  const createRating = async (ratingValue) => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const response = await postRating({ file_id: fileId, rating: ratingValue }, token);
+      if (response) {
+        setUserRating(true);
+        // You may also want to fetch the updated ratings after a successful rating submission
+        fetchRatings();
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
 
+  // get favouritesbyid
+  const fetchRatings = async () => {
+    try {
+      const ratingsData = await getRatingsById(fileId);
+      setRatings(ratingsData);
+      // check if userid stored in context is in ratingsData
+      ratingsData.forEach((rating) => {
+        if (rating.user_id === user.user_id) {
+          setUserRating(true);
+        }
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+
+
+
+  useEffect(() => {
+    fetchRatings();
+  }, [userRating]);
+
+
+  const calculateAverageRating = () => {
+    if (ratings.length === 0) {
+      return 0;
+    }
+    const totalRating = ratings.reduce((acc, rating) => acc + rating.rating, 0);
+    return totalRating / ratings.length;
+  };
 
 
   // Show full image and metadata
   return (
-
-    <ScrollView>
-      <Card>
-        <Card.Title>{title}</Card.Title>
-        {mediaType === 'image' ? (
-          <Card.Image
-            source={{uri: mediaUrl + filename}}
-            resizeMode="center"
-            style={{height: 300}}
-          />
-        ) : (
-          <Video
-            source={{uri: mediaUrl + filename}}
-            style={{height: 300}}
-            useNativeControls={true}
-            shouldPlay={true}
-            isLooping={true}
-            ref={videoRef}
-          />
-        )}
-        <ListItem>
-          <Text>{description}</Text>
-        </ListItem>
-        <ListItem>
-          <Icon name="save" />
-          <Text>{Math.round(filesize / 1024)} kB</Text>
-        </ListItem>
-        <ListItem>
-          <Icon name="today" />
-          <Text>{formatDate(timeAdded)}</Text>
-        </ListItem>
-        <ListItem>
-          <Icon name="person" />
-          <Text>username: {owner.username}</Text>
-        </ListItem>
-        <ListItem>
-          {userLike ? (
-            <Button onPress={removeFavourite} title={'Unlike'} />
+      <ScrollView>
+        <Card>
+          <Card.Title>{title}</Card.Title>
+          {mediaType === 'image' ? (
+              <Card.Image
+                  source={{uri: mediaUrl + filename}}
+                  resizeMode="center"
+                  style={{height: 300}}
+              />
           ) : (
-            <Button onPress={createFavourite} title={'Like'} />
+              <Video
+                  source={{uri: mediaUrl + filename}}
+                  style={{height: 300}}
+                  useNativeControls={true}
+                  shouldPlay={true}
+                  isLooping={true}
+                  ref={videoRef}
+              />
           )}
-          <Text>Total likes: {likes.length}</Text>
-        </ListItem>
-        <ListItem>
-          <RatePost postId={postId} />
-        </ListItem>
-        <ListItem>
+          <ListItem>
+            <Text>{description}</Text>
+          </ListItem>
+          <ListItem>
+            <Icon name="save" />
+            <Text>{Math.round(filesize / 1024)} kB</Text>
+          </ListItem>
+          <ListItem>
+            <Icon name="today" />
+            <Text>{formatDate(timeAdded)}</Text>
+          </ListItem>
+          <ListItem>
+            <Icon name="person" />
+            <Text>username: {owner.username}</Text>
+          </ListItem>
+          <ListItem>
+            {userLike ? (
+                <Button onPress={removeFavourite} title={'Unlike'} />
+            ) : (
+                <Button onPress={createFavourite} title={'Like'} />
+            )}
+            <Text>Total likes: {likes.length}</Text>
+          </ListItem>
+          <ListItem>
+            <Rating
+                onPress={createRating} // Remove the onPress prop
+                title={'Rating'}
+                type="custom"
+                ratingCount={5} // Number of stars
+                imageSize={1} // Size of each star
+                startingValue={userRating} // Initial user rating
+                onFinishRating={createRating} // Pass the selected rating value to createRating
+            />
 
-        </ListItem>
-        <ListItem>
-          <Text>Average Rating: {calculateAverageRating(tags)}</Text>
-        </ListItem>
-        <ListItem>
-          <Rating itemId={fileId} /> {/* Include the Rating component */}
-        </ListItem>
-      </Card>
-    </ScrollView>
+          </ListItem>
+          <ListItem>
+            {/*<Text>Average Rating: {calculateAverageRating}</Text>*/}
+          </ListItem>
+        </Card>
+      </ScrollView>
   );
 };
-
-
-const calculateAverageRating = (tags) => {
-  const ratingTags = tags.filter((tag) => tag.tag.includes('rating_'));
-  if (ratingTags.length === 0) {
-    return 'N/A';
-  }
-
-  const totalRating = ratingTags.reduce((sum, tag) => {
-    const rating = parseInt(tag.tag.split('_')[1]);
-    return sum + rating;
-  }, 0);
-
-  const averageRating = totalRating / ratingTags.length;
-  return averageRating.toFixed(1);
-};
-
 
 Single.propTypes = {
   navigation: PropTypes.object,
