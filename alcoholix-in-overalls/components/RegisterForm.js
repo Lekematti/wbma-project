@@ -1,11 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {useUser} from '../hooks/ApiHooks';
 import {Controller, useForm} from 'react-hook-form';
 import {Card, Button, Input} from '@rneui/themed';
 import {Alert} from 'react-native';
 import PropTypes from 'prop-types';
+import {MainContext} from "../contexts/MainContext";
 
 const RegisterForm = ({setToggleRegister}) => {
+  const { setUser } = useContext(MainContext); // Access the user information from the context
   const {postUser, checkUsername} = useUser();
   const {
     control,

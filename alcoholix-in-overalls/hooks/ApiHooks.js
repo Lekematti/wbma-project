@@ -188,6 +188,12 @@ const useFavourite = () => {
     getFavouritesById,
     getFavouritesByToken,
   };
-};
+}
 
-export {useMedia, useAuthentication, useUser, useTag, useFavourite};
+
+
+
+
+
+
+export {useMedia, useAuthentication, useUser, useTag, useFavourite,};

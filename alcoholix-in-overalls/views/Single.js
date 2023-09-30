@@ -5,10 +5,13 @@ import {formatDate} from '../utils/functions';
 import {Card, Icon, Text, ListItem, Button} from '@rneui/themed';
 import {Video} from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useFavourite, useUser} from '../hooks/ApiHooks';
+import {useFavourite, useTag, useUser} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import {ScrollView} from 'react-native';
+import Rating from '../utils/Rating'; // Import the Rating component
+
+
 
 const Single = ({route, navigation}) => {
   const [owner, setOwner] = useState({});
@@ -19,6 +22,26 @@ const Single = ({route, navigation}) => {
   const [likes, setLikes] = useState([]);
 
   const videoRef = useRef(null);
+
+
+  const { postId } = route.params; // Assuming postId is passed via route.params
+  const { getFilesByTag } = useTag(); // Import the useTag hook or your API function for fetching tags
+  const [tags, setTags] = useState([]); // State to store tags associated with the post
+
+  useEffect(() => {
+    // Fetch all tags associated with the post
+    const fetchTags = async () => {
+      try {
+        const response = await getFilesByTag(`file_${postId}`);
+        setTags(response);
+      } catch (error) {
+        console.error('Error fetching tags:', error);
+      }
+    };
+    fetchTags();
+  }, [postId]);
+
+
 
   const {
     title,
@@ -130,8 +153,14 @@ const Single = ({route, navigation}) => {
     fetchLikes();
   }, [userLike]);
 
+
+
+
+
+
   // Show full image and metadata
   return (
+
     <ScrollView>
       <Card>
         <Card.Title>{title}</Card.Title>
@@ -174,10 +203,39 @@ const Single = ({route, navigation}) => {
           )}
           <Text>Total likes: {likes.length}</Text>
         </ListItem>
+        <ListItem>
+          <RatePost postId={postId} />
+        </ListItem>
+        <ListItem>
+
+        </ListItem>
+        <ListItem>
+          <Text>Average Rating: {calculateAverageRating(tags)}</Text>
+        </ListItem>
+        <ListItem>
+          <Rating itemId={fileId} /> {/* Include the Rating component */}
+        </ListItem>
       </Card>
     </ScrollView>
   );
 };
+
+
+const calculateAverageRating = (tags) => {
+  const ratingTags = tags.filter((tag) => tag.tag.includes('rating_'));
+  if (ratingTags.length === 0) {
+    return 'N/A';
+  }
+
+  const totalRating = ratingTags.reduce((sum, tag) => {
+    const rating = parseInt(tag.tag.split('_')[1]);
+    return sum + rating;
+  }, 0);
+
+  const averageRating = totalRating / ratingTags.length;
+  return averageRating.toFixed(1);
+};
+
 
 Single.propTypes = {
   navigation: PropTypes.object,
