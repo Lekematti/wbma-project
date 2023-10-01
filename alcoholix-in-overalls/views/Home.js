@@ -1,11 +1,11 @@
 import React from 'react';
-import {SafeAreaView} from 'react-native';
+import {SafeAreaView,} from 'react-native';
 import List from '../components/List';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
 
 const Home = ({navigation}) => {
-  return (
+    return (
     <>
       <SafeAreaView>
         <List navigation = {navigation}/>
