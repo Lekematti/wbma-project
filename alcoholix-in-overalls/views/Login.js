@@ -7,6 +7,7 @@ import {useUser} from '../hooks/ApiHooks';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
 import {Button} from '@rneui/base';
+import {Card} from "@rneui/themed";
 
 const Login = ({navigation}) => {
   // props is needed for navigation
@@ -48,13 +49,15 @@ const Login = ({navigation}) => {
         ) : (
           <LoginForm />
         )}
+        <Card>
         <Button
           onPress={() => {
             setToggleRegister(!toggleRegister);
           }}
         >
-          {toggleRegister ? 'or login' : 'or register'}
+          {toggleRegister ? 'Login' : 'Register'}
         </Button>
+        </Card>
       </KeyboardAvoidingView>
     </TouchableOpacity>
   );

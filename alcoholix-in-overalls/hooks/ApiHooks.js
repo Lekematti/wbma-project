@@ -190,4 +190,21 @@ const useFavourite = () => {
   };
 };
 
-export {useMedia, useAuthentication, useUser, useTag, useFavourite};
+const useSearch = () => {
+  const searchMedia = async (searchQuery, token) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+      body: JSON.stringify(searchQuery),
+    };
+
+    return await doFetch(apiUrl + 'media/search', options);
+  };
+  return {searchMedia};
+};
+
+
+export {useMedia, useAuthentication, useUser, useTag, useFavourite, useSearch};
