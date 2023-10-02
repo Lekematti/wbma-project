@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {mediaUrl} from '../utils/app-config';
 import {formatDate} from '../utils/functions';
-import {Card, Icon, Text, ListItem, Button, Rating} from '@rneui/themed';
+import {Card, Icon, Text, ListItem, Button} from '@rneui/themed';
 import {Video} from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFavourite, useRating, useUser} from '../hooks/ApiHooks';
@@ -23,7 +23,7 @@ const Single = ({route, navigation}) => {
   const {postRating, getRatingsById, } = useRating();
   const [likes, setLikes] = useState([]);
   const [ratings, setRatings] = useState([]);
-  const [averageRating, setAverageRating] = useState(false);
+  const [averageRating, setAverageRating] = useState(0);
 
 
 
@@ -140,15 +140,15 @@ const Single = ({route, navigation}) => {
   }, [userLike]);
 
 
-  // add favourite
-  const createRating = async (ratingValue) => {
+  // add rating
+  const createRating = async () => {
+    console.log('tekee rating')
     try {
       const token = await AsyncStorage.getItem('userToken');
-      const response = await postRating({ file_id: fileId, rating: ratingValue }, token);
+      const response = await postRating({ file_id: fileId, rating: 3 }, token);
       if (response) {
         setUserRating(true);
         // You may also want to fetch the updated ratings after a successful rating submission
-        fetchRatings();
       }
     } catch (error) {
       console.error(error.message);
@@ -158,9 +158,12 @@ const Single = ({route, navigation}) => {
 
   // get favouritesbyid
   const fetchRatings = async () => {
+    console.log('hakee rating')
     try {
       const ratingsData = await getRatingsById(fileId);
+      console.log(ratingsData)
       setRatings(ratingsData);
+      calculateAverageRating();
       // check if userid stored in context is in ratingsData
       ratingsData.forEach((rating) => {
         if (rating.user_id === user.user_id) {
@@ -184,7 +187,7 @@ const Single = ({route, navigation}) => {
       return 0;
     }
     const totalRating = ratings.reduce((acc, rating) => acc + rating.rating, 0);
-    return totalRating / ratings.length;
+    setAverageRating(totalRating / ratings.length)
   };
 
 
@@ -233,19 +236,18 @@ const Single = ({route, navigation}) => {
             <Text>Total likes: {likes.length}</Text>
           </ListItem>
           <ListItem>
-            <Rating
-                onPress={createRating} // Remove the onPress prop
+            <Button
                 title={'Rating'}
-                type="custom"
-                ratingCount={5} // Number of stars
-                imageSize={1} // Size of each star
-                startingValue={userRating} // Initial user rating
-                onFinishRating={createRating} // Pass the selected rating value to createRating
+                // type="custom"
+                // ratingCount={5} // Number of stars
+                // imageSize={1} // Size of each star
+                // startingValue={userRating} // Initial user rating
+                onPress={createRating} // Pass the selected rating value to createRating
             />
 
           </ListItem>
           <ListItem>
-            {/*<Text>Average Rating: {calculateAverageRating}</Text>*/}
+            <Text>Average Rating: {averageRating}</Text>
           </ListItem>
         </Card>
       </ScrollView>

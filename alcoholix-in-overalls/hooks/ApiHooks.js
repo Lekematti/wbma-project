@@ -193,7 +193,7 @@ const useFavourite = () => {
 
 const useRating = () => {
   const postRating = async (rating, token) => {
-     console.log(rating);
+     console.log(rating, token);
     const options = {
       method: 'POST',
       headers: {
@@ -207,6 +207,7 @@ const useRating = () => {
 
 
   const getRatingsById = async (id, token) => {
+    console.log(id);
     const options = {
       method: 'GET',
       headers: {
@@ -214,7 +215,7 @@ const useRating = () => {
       },
       body: JSON.stringify(token),
     };
-    return await doFetch(apiUrl + 'ratings/file/' + id);
+    return await doFetch(apiUrl + 'ratings/file/' + id, options);
   };
 
   const getRatingsByToken = async (token) => {
