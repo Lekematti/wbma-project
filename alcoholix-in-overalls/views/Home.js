@@ -4,16 +4,13 @@ import {Text,} from '@rneui/themed';
 import List from '../components/List';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
-import {useSearch} from "../hooks/ApiHooks";
+import {useMedia} from "../hooks/ApiHooks";
 import SearchBar from "../utils/search";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-
-
-
 const Home = ({navigation}) => {
 
-  const { searchMedia } = useSearch(); // Use the useSearch hook
+  const { searchMedia, mediaArray } = useMedia(); // Use the useSearch hook
   const [searchTerm, setSearchTerm] = useState(''); // State for search term
   const [searchResults, setSearchResults] = useState([]); // State to store search results
 
@@ -22,7 +19,7 @@ const Home = ({navigation}) => {
   const makeSearch = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
-      const searchData = await searchMedia({ searchQuery: searchTerm}, token);
+      const searchData = await searchMedia({ title: searchTerm}, token);
       console.log('Search Results:', searchData); // Debugging
       setSearchResults(searchData);
     } catch (error) {
@@ -35,7 +32,6 @@ const Home = ({navigation}) => {
     // Fetch search results when searchTerm changes
     makeSearch();
   }, [searchTerm]);
-
 
 
   return (
@@ -52,7 +48,7 @@ const Home = ({navigation}) => {
             </View>
           )}
         />
-        <List navigation={navigation} />
+        <List navigation={navigation} mediaArray={mediaArray} />
       </SafeAreaView>
       <StatusBar style="auto" />
     </>

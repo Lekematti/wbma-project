@@ -7,6 +7,30 @@ const useMedia = (update) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const searchMedia = async (searchQuery, token) => {
+    console.log(searchQuery)
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+      body: JSON.stringify(searchQuery),
+    };
+
+    const json=  await doFetch(apiUrl + 'media/search', options);
+    const mediaFiles = await Promise.all(
+      json.map(async (item) => {
+        const fileData = await doFetch(apiUrl + 'media/' + item.file_id);
+        console.log('fileData', fileData);
+        return fileData;
+      }),
+    );
+    // console.log(data);
+    setMediaArray(mediaFiles);
+    console.log('lol', mediaArray)
+  };
+
   const loadMedia = async () => {
     try {
       // all mediafiles
@@ -51,7 +75,7 @@ const useMedia = (update) => {
     }
   };
 
-  return {mediaArray, postMedia, loading};
+  return {mediaArray, postMedia, loading, searchMedia};
 };
 
 const useAuthentication = () => {
@@ -191,19 +215,7 @@ const useFavourite = () => {
 };
 
 const useSearch = () => {
-  const searchMedia = async (searchQuery, token) => {
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-access-token': token,
-      },
-      body: JSON.stringify(searchQuery),
-    };
 
-    return await doFetch(apiUrl + 'media/search', options);
-  };
-  return {searchMedia};
 };
 
 
