@@ -8,7 +8,7 @@ const useMedia = (update) => {
   const [loading, setLoading] = useState(false);
 
   const searchMedia = async (searchQuery, token) => {
-    console.log(searchQuery)
+    //console.log(searchQuery)
     const options = {
       method: 'POST',
       headers: {
@@ -22,13 +22,13 @@ const useMedia = (update) => {
     const mediaFiles = await Promise.all(
       json.map(async (item) => {
         const fileData = await doFetch(apiUrl + 'media/' + item.file_id);
-        console.log('fileData', fileData);
+        //console.log('fileData', fileData);
         return fileData;
       }),
     );
     // console.log(data);
     setMediaArray(mediaFiles);
-    console.log('lol', mediaArray)
+    //console.log('lol',mediaFiles)
   };
 
   const loadMedia = async () => {
@@ -75,7 +75,7 @@ const useMedia = (update) => {
     }
   };
 
-  return {mediaArray, postMedia, loading, searchMedia};
+  return {mediaArray, postMedia, loading, searchMedia, loadMedia};
 };
 
 const useAuthentication = () => {
@@ -214,9 +214,5 @@ const useFavourite = () => {
   };
 };
 
-const useSearch = () => {
 
-};
-
-
-export {useMedia, useAuthentication, useUser, useTag, useFavourite, useSearch};
+export {useMedia, useAuthentication, useUser, useTag, useFavourite};

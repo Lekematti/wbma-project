@@ -21,13 +21,14 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#626262',
     padding: 10,
     borderRadius: 5,
   },
   input: {
     flex: 1,
     marginLeft: 10,
+    color: '#ffffff',
   },
 });
 

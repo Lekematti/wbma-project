@@ -10,7 +10,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const Home = ({navigation}) => {
 
-  const { searchMedia, mediaArray } = useMedia(); // Use the useSearch hook
+  const {loadMedia, searchMedia, mediaArray} = useMedia(); // Use the useSearch hook
   const [searchTerm, setSearchTerm] = useState(''); // State for search term
   const [searchResults, setSearchResults] = useState([]); // State to store search results
 
@@ -20,7 +20,7 @@ const Home = ({navigation}) => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const searchData = await searchMedia({ title: searchTerm}, token);
-      console.log('Search Results:', searchData); // Debugging
+      //console.log('Search Results:', searchData); // Debugging
       setSearchResults(searchData);
     } catch (error) {
       console.error(error.message);
@@ -28,11 +28,20 @@ const Home = ({navigation}) => {
   };
 
   useEffect(() => {
-    console.log('Search Term:', searchTerm); // Debugging
-    // Fetch search results when searchTerm changes
-    makeSearch();
+    //console.log('Search Term:', searchTerm);
+    if (searchTerm.trim() !== '') {
+      // If search term is not empty, perform search
+      makeSearch();
+    } else {
+      // If search term is empty, load all posts with the specific appId
+      loadMedia();
+    }
   }, [searchTerm]);
 
+  useEffect(() => {
+    // Load all posts with the specific appId initially
+    loadMedia();
+  }, []);
 
   return (
     <>
