@@ -5,9 +5,9 @@ import PropTypes from 'prop-types';
 import {useContext} from 'react';
 import {MainContext} from '../contexts/MainContext';
 
-const List = ({navigation}) => {
+const List = ({navigation, mediaArray}) => {
   const {update} = useContext(MainContext);
-  const {mediaArray} = useMedia(update);
+
 
   return (
     <FlatList
