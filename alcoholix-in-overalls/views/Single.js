@@ -9,22 +9,20 @@ import {useFavourite, useRating, useUser} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import {ScrollView} from 'react-native';
-
-
-
+import { AirbnbRating } from "react-native-elements";
 
 const Single = ({route, navigation}) => {
+
   const [owner, setOwner] = useState({});
   const [userLike, setUserLike] = useState(false);
   const [userRating, setUserRating] = useState(false)
   const {user} = useContext(MainContext);
   const {getUserById} = useUser();
   const {postFavourite, getFavouritesById, deleteFavourite} = useFavourite();
-  const {postRating, getRatingsById, } = useRating();
+  const {postRating, getRatingsById, deleteRating} = useRating();
   const [likes, setLikes] = useState([]);
   const [ratings, setRatings] = useState([]);
   const [averageRating, setAverageRating] = useState(0);
-
 
 
   const videoRef = useRef(null);
@@ -145,7 +143,8 @@ const Single = ({route, navigation}) => {
     console.log('tekee rating')
     try {
       const token = await AsyncStorage.getItem('userToken');
-      const response = await postRating({ file_id: fileId, rating: 3 }, token);
+      const response = await postRating({file_id: fileId, rating: ratings}, token);
+      console.log(response)
       if (response) {
         setUserRating(true);
         // You may also want to fetch the updated ratings after a successful rating submission
@@ -156,9 +155,9 @@ const Single = ({route, navigation}) => {
   };
 
 
+
   // get favouritesbyid
   const fetchRatings = async () => {
-    console.log('hakee rating')
     try {
       const ratingsData = await getRatingsById(fileId);
       console.log(ratingsData)
@@ -175,7 +174,15 @@ const Single = ({route, navigation}) => {
     }
   };
 
-
+  const removeRating = async () => {
+    try {
+      const token = await AsyncStorage.getItem('userToken');
+      const response = await deleteRating(fileId, token);
+      response && setUserRating(false);
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   useEffect(() => {
     fetchRatings();
@@ -236,13 +243,14 @@ const Single = ({route, navigation}) => {
             <Text>Total likes: {likes.length}</Text>
           </ListItem>
           <ListItem>
-            <Button
+            <AirbnbRating
+                onStartRating={removeRating}
                 title={'Rating'}
                 // type="custom"
-                // ratingCount={5} // Number of stars
+                count={5} // Number of stars
                 // imageSize={1} // Size of each star
                 // startingValue={userRating} // Initial user rating
-                onPress={createRating} // Pass the selected rating value to createRating
+                onFinishRating={createRating} // Pass the selected rating value to createRating
             />
 
           </ListItem>

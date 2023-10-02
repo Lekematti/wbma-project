@@ -192,6 +192,7 @@ const useFavourite = () => {
 }
 
 const useRating = () => {
+
   const postRating = async (rating, token) => {
      console.log(rating, token);
     const options = {
@@ -228,10 +229,21 @@ const useRating = () => {
     return await doFetch(apiUrl + 'ratings', options);
   };
 
+  const deleteRating = async (id, token) => {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    return await doFetch(apiUrl + '/ratings/file/' + id, options)
+  }
+
   return {
     postRating,
     getRatingsById,
     getRatingsByToken,
+    deleteRating,
   };
 }
 

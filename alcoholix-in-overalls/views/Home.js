@@ -9,7 +9,6 @@ const Home = ({navigation}) => {
   return (
     <>
       <SafeAreaView>
-
         <List navigation = {navigation}/>
       </SafeAreaView>
       <StatusBar style="auto"/>
