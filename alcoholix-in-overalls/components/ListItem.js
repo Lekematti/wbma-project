@@ -4,7 +4,6 @@ import {Avatar, Button, ListItem as RNEListItem} from '@rneui/themed';
 import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 
-
 const ListItem = ({singleMedia, navigation}) => {
   return (
     <TouchableOpacity>
