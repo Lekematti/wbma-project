@@ -37,7 +37,6 @@ const Profile = (props) => {
   return (
     <ScrollView>
       <Card>
-
         <Card.Title>{user.username}</Card.Title>
         <Card.Image source={{uri: avatar}} />
         <ListItem>
