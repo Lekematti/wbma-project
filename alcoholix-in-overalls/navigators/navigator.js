@@ -5,6 +5,7 @@ import Home from '../views/Home';
 import Profile from '../views/Profile';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Single from '../views/Single';
+import Favorites from '../views/Favorites'
 import Login from '../views/Login';
 import {MainContext} from '../contexts/MainContext';
 import {Icon} from '@rneui/themed';
@@ -24,10 +25,10 @@ const Tabscreen = () => {
         }}
       />
       <Tab.Screen
-        name="Profile"
-        component={Profile}
+        name="Favorites"
+        component={Favorites}
         options={{
-          tabBarIcon: ({color}) => <Icon name="person" color={color} />,
+          tabBarIcon: ({color}) => <Icon name="bookmark" color={color} />,
         }}
       />
       <Tab.Screen
@@ -35,6 +36,13 @@ const Tabscreen = () => {
         component={Upload}
         options={{
           tabBarIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
+        }}
+      />
+      <Tab.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          tabBarIcon: ({color}) => <Icon name="badge" color={color} />,
         }}
       />
     </Tab.Navigator>

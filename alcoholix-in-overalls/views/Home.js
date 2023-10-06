@@ -8,6 +8,7 @@ import {useMedia} from "../hooks/ApiHooks";
 import SearchBar from "../utils/search";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+
 const Home = ({navigation}) => {
 
   const {loadMedia, searchMedia, mediaArray} = useMedia(); // Use the useSearch hook

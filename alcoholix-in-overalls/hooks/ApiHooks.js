@@ -3,7 +3,7 @@ import {apiUrl, appId} from '../utils/app-config';
 import {doFetch} from '../utils/functions';
 import {error} from '@babel/eslint-parser/lib/convert/index.cjs';
 
-const useMedia = (update) => {
+const useMedia = (update, userLikes) => {
   const [mediaArray, setMediaArray] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -32,29 +32,25 @@ const useMedia = (update) => {
   };
 
   const loadMedia = async () => {
-    try {
-      // all mediafiles
-      // const json = await doFetch(apiUrl + 'media');
-      // files with specific appId
-      const json = await doFetch(apiUrl + 'tags/' + appId);
-      // console.log(json);
-      const mediaFiles = await Promise.all(
-        json.map(async (item) => {
-          const fileData = await doFetch(apiUrl + 'media/' + item.file_id);
-          // console.log('fileData', fileData);
-          return fileData;
-        }),
-      );
-      // console.log(data);
-      setMediaArray(mediaFiles);
-    } catch (error) {
-      console.error('loadMedia failed', error);
-    }
-  };
+      try {
+        // files with specific appId
+        const json = await doFetch(apiUrl + 'tags/' + appId);
+        const mediaFiles = await Promise.all(
+          json.map(async (item) => {
+            const fileData = await doFetch(apiUrl + 'media/' + item.file_id);
+            return fileData;
+          }),
+        );
+        setMediaArray(mediaFiles);
+      } catch (error) {
+        console.error('loadMedia failed', error);
+      }
+    };
 
   useEffect(() => {
     loadMedia();
-  }, [update]);
+  }, [update, userLikes]);
+
 
   const postMedia = async (mediaData, token) => {
     setLoading(true);
@@ -203,7 +199,15 @@ const useFavourite = () => {
         'x-access-token': token,
       },
     };
-    return await doFetch(apiUrl + 'favourites', options);
+    const json = await doFetch(apiUrl + 'favourites', options);
+
+    const mediaFiles = await Promise.all(
+      json.map(async (item) => {
+        const fileData = await doFetch(apiUrl + 'media/' + item.file_id);
+        return fileData;
+      }),
+    );
+    return mediaFiles;
   };
 
   return {
@@ -212,7 +216,60 @@ const useFavourite = () => {
     getFavouritesById,
     getFavouritesByToken,
   };
+}
+
+const useRating = () => {
+
+  const postRating = async (rating, token) => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-access-token': token,
+      },
+      body: JSON.stringify(rating),
+    };
+    return await doFetch(apiUrl + 'ratings', options);
+  };
+
+
+  const getRatingsById = async (id, token) => {
+    const options = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+      body: JSON.stringify(token),
+    };
+    return await doFetch(apiUrl + 'ratings/file/' + id, options);
+  };
+
+  const getRatingsByToken = async (token) => {
+    const options = {
+      method: 'GET',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    return await doFetch(apiUrl + 'ratings', options);
+  };
+
+  const deleteRating = async (id, token) => {
+    const options = {
+      method: 'DELETE',
+      headers: {
+        'x-access-token': token,
+      },
+    };
+    return await doFetch(apiUrl + 'ratings/file/' + id, options);
+  };
+
+  return {
+    postRating,
+    getRatingsById,
+    getRatingsByToken,
+    deleteRating,
+  };
 };
 
-
-export {useMedia, useAuthentication, useUser, useTag, useFavourite};
+export {useMedia, useAuthentication, useUser, useTag, useFavourite, useRating};
