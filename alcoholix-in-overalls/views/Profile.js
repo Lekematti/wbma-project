@@ -57,6 +57,10 @@ const Profile = (props) => {
           Log out!
           <Icon name="logout" color="white" />
         </Button>
+        <Button title="Load avatar" onPress={loadAvatar}>
+          Load avatar
+          <Icon name="loadavatar" color="white" />
+        </Button>
         <ProfileForm />
 
       </Card>
