@@ -8,8 +8,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFavourite, useMedia, useRating, useUser} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
-import {ScrollView} from 'react-native';
-import { AirbnbRating } from "react-native-elements";
+import {ScrollView, StyleSheet} from 'react-native';
+import {AirbnbRating} from "react-native-elements";
 
 const Single = ({route, navigation}) => {
 
@@ -61,7 +61,7 @@ const Single = ({route, navigation}) => {
   const lockOrientation = async () => {
     try {
       await ScreenOrientation.lockAsync(
-          ScreenOrientation.OrientationLock.PORTRAIT_UP,
+        ScreenOrientation.OrientationLock.PORTRAIT_UP,
       );
     } catch (error) {
       console.error(error.message);
@@ -82,11 +82,11 @@ const Single = ({route, navigation}) => {
 
     // fullscreen video on landscape
     const orientSub = ScreenOrientation.addOrientationChangeListener(
-        (event) => {
-          if (event.orientationInfo.orientation > 2) {
-            videoRef.current && showVideoInFullscreen();
-          }
-        },
+      (event) => {
+        if (event.orientationInfo.orientation > 2) {
+          videoRef.current && showVideoInFullscreen();
+        }
+      },
     );
 
     return () => {
@@ -224,103 +224,127 @@ const Single = ({route, navigation}) => {
   };
 
   const deletePost = async () => {
-      const token = await AsyncStorage.getItem('userToken');
-      const response = await deleteMedia(fileId, token);
-      alert('Post deleted')
-      console.log(response, 'delete succes')
+    const token = await AsyncStorage.getItem('userToken');
+    const response = await deleteMedia(fileId, token);
+    alert('Post deleted')
+    console.log(response, 'delete succes')
   };
 
   // Show full image and metadata
+
+  // Show full image and metadata
   return (
-      <ScrollView>
-        <Card>
-          <Card.Title>{title}</Card.Title>
-          {mediaType === 'image' ? (
-              <Card.Image
-                  source={{uri: mediaUrl + filename}}
-                  resizeMode="center"
-                  style={{height: 300}}
-              />
+    <ScrollView style={{backgroundColor: '#ffeb00'}}>
+      <Card containerStyle={styles.card}>
+        <Card.Title style={styles.text}>{title}</Card.Title>
+        {mediaType === 'image' ? (
+          <Card.Image
+            source={{uri: mediaUrl + filename}}
+            resizeMode="center"
+            style={{height: 300}}
+          />
+        ) : (
+          <Video
+            source={{uri: mediaUrl + filename}}
+            style={{height: 300}}
+            useNativeControls={true}
+            shouldPlay={true}
+            isLooping={true}
+            ref={videoRef}
+          />
+        )}
+        <ListItem containerStyle={styles.listItem}>
+          <Text style={styles.text}>{description}</Text>
+        </ListItem>
+
+        <ListItem containerStyle={styles.listItem}>
+          <Icon name="today"/>
+          <Text style={styles.text}>{formatDate(timeAdded)}</Text>
+        </ListItem>
+        <ListItem containerStyle={styles.listItem}>
+          <Icon name="person"/>
+          <Text style={styles.text}>Posted by: {owner.username}</Text>
+        </ListItem>
+        <ListItem containerStyle={styles.listItem}>
+          {userLike ? (
+            <Button onPress={removeFavourite}
+                    color={'#008c8c'}
+                    textColor={'#'}
+                    titleStyle={{color: '#ffeb00'}}
+                    title={'Remove from favorites'}/>
           ) : (
-              <Video
-                  source={{uri: mediaUrl + filename}}
-                  style={{height: 300}}
-                  useNativeControls={true}
-                  shouldPlay={true}
-                  isLooping={true}
-                  ref={videoRef}
-              />
+            <Button onPress={createFavourite}
+                    color={'#008c8c'}
+                    textColor={'#'}
+                    titleStyle={{color: '#ffeb00'}}
+                    title={'Add to favorites'}/>
           )}
-          <ListItem>
-
-            <Text>{description}</Text>
-          </ListItem>
-          <ListItem>
-            <Icon name="today" />
-            <Text>{formatDate(timeAdded)}</Text>
-          </ListItem>
-          <ListItem>
-            <Icon name="person" />
-            <Text>Posted by: {owner.username}</Text>
-          </ListItem>
-          <ListItem>
-            {userLike ? (
-                <Button onPress={removeFavourite} title={'Remove from favorites'} />
-            ) : (
-                <Button onPress={createFavourite} title={'Add to favorites'} />
-            )}
-            <Text>: {likes.length}</Text>
-          </ListItem>
-          <ListItem>
-            <AirbnbRating
-                title={'Rating'}
-                type={'custom'}
-                starImage={WATER_IMAGE}
-                count={5} // Number of stars
-                size={55}
-                defaultRating={averageRating}
-                onFinishRating={createRating} // Pass the selected rating value to createRating
-            />
-
-            {/*<Rating*/}
-            {/*  type='custom'*/}
-            {/*  ratingImage={WATER_IMAGE}*/}
-            {/*  // ratingColor={'#dbcd34'}*/}
-            {/*  // ratingBackgroundColor={'#c8c7c8'}*/}
-            {/*  selectedColor={'#dbcd34'}*/}
-            {/*  unSelectedColor={'#c8c7c8'}*/}
-            {/*  ratingCount={5}*/}
-            {/*  imageSize={30}*/}
-            {/*  showRating={true}*/}
-            {/*  onFinishRating={createRating}*/}
-            {/*/>*/}
-          </ListItem>
-          <ListItem>
-            <Text>Average Rating: {averageRating.toFixed(2)}</Text>
-          </ListItem>
-          <ListItem>
-            <Text>Your Rating: {myRating !== null ? myRating : 'Not Rated'}</Text>
-          </ListItem>
-          <ListItem>
-            <Button
-              title={'Delete Rating'}
-              onPress={removeRating}
-            />
-          </ListItem>
-          <ListItem>
-            <Icon name="save" />
-            <Text>{Math.round(filesize / 1024)} kB</Text>
-          </ListItem>
-          <ListItem>
-            <Button
-              onPress={deletePost}
-              title={'Delete post!'}
-            />
-          </ListItem>
-        </Card>
-      </ScrollView>
+          <Text style={styles.text}>: {likes.length}</Text>
+        </ListItem>
+        <ListItem containerStyle={styles.listItem}>
+          <AirbnbRating
+            title={'Rating'}
+            type={'custom'}
+            starImage={WATER_IMAGE}
+            count={5} // Number of stars
+            size={55}
+            defaultRating={averageRating}
+            onFinishRating={createRating} // Pass the selected rating value to createRating
+          />
+        </ListItem>
+        <ListItem containerStyle={styles.listItem}>
+          <Text style={styles.text}>Average Rating: {averageRating}</Text>
+        </ListItem>
+        <ListItem containerStyle={styles.listItem}>
+          <Text style={styles.text}>Your Rating: {myRating !== null ? myRating : 'Not Rated'}</Text>
+        </ListItem>
+        <ListItem containerStyle={styles.listItem}>
+          <Button title={'Delete Rating'}
+                  onPress={removeRating}
+                  color={'#008c8c'}
+                  textColor={'#'}
+                  titleStyle={{color: '#ffeb00'}}
+          />
+        </ListItem>
+        <ListItem containerStyle={styles.listItem}>
+          <Icon name="save" style={styles.text}/>
+          <Text style={styles.text}>{Math.round(filesize / 1024)} kB</Text>
+        </ListItem>
+        <ListItem containerStyle={styles.listItem}>
+          <Button onPress={deletePost}
+                  title={'Delete post!'}
+                  color={'#008c8c'}
+                  textColor={'#'}
+                  titleStyle={{color: '#ffeb00'}}
+          />
+        </ListItem>
+      </Card>
+    </ScrollView>
   );
 };
+
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#000000',
+  },
+  card: {
+    backgroundColor: '#000000',
+    borderWidth: 1,
+    borderColor: '#000000',
+    marginBottom: 10
+  },
+  listItem: {
+    backgroundColor: '#000000',
+  },
+  text: {
+    color: '#ffeb00',
+  },
+  button: {
+    color: '#008c8c',
+    textColor: '#ffeb00',
+  },
+});
 
 Single.propTypes = {
   navigation: PropTypes.object,

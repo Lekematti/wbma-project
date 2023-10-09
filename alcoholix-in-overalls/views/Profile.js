@@ -5,7 +5,7 @@ import {useTag} from '../hooks/ApiHooks';
 import {mediaUrl} from '../utils/app-config';
 import {Button, Card, Icon, ListItem} from '@rneui/themed';
 import ProfileForm from '../components/ProfileForm';
-import {ScrollView} from 'react-native';
+import {ScrollView, StyleSheet} from 'react-native';
 
 
 const Profile = (props) => {
@@ -34,33 +34,38 @@ const Profile = (props) => {
   useEffect(() => {
     loadAvatar();
   }, []);
+
   return (
-    <ScrollView>
-      <Card>
-        <Card.Title>{user.username}</Card.Title>
+    <ScrollView style={{backgroundColor: '#ffeb00'}}>
+      <Card containerStyle={styles.card}>
+        <Card.Title style={styles.text}>{user.username}</Card.Title>
         <Card.Image source={{uri: avatar}} />
         <ListItem>
           <Icon name="email" />
-          <ListItem.Title>{user.email}</ListItem.Title>
+          <ListItem.Title style={styles.text}>{user.email}</ListItem.Title>
         </ListItem>
         {user.full_name && (
           <ListItem>
             <Icon name="person" />
-            <ListItem.Title>{user.full_name}</ListItem.Title>
+            <ListItem.Title style={styles.text}>{user.full_name}</ListItem.Title>
           </ListItem>
         )}
         <ListItem>
-          <ListItem.Title>user id: {user.user_id}</ListItem.Title>
+          <ListItem.Title style={styles.text}>user id: {user.user_id}</ListItem.Title>
         </ListItem>
         <Card.Divider />
-        <Button title="Log out!" onPress={logOut}>
+        <ListItem>
+          <Button title="Log out!" onPress={logOut}>
           Log out!
           <Icon name="logout" color="white" />
         </Button>
-        <Button title="Load avatar" onPress={loadAvatar}>
-          Load avatar
-          <Icon name="loadavatar" color="white" />
-        </Button>
+        </ListItem>
+       <ListItem>
+         <Button title="Load avatar" onPress={loadAvatar}>
+           Load avatar
+           <Icon name="loadavatar" color="white" />
+         </Button>
+       </ListItem>
         <ProfileForm />
 
       </Card>
@@ -68,5 +73,35 @@ const Profile = (props) => {
 
   );
 };
+
+const styles = StyleSheet.create({
+  image: {
+    width: '100%',
+    height: undefined,
+    aspectRatio: 1,
+    marginBottom: 15,
+    resizeMode: 'cover',
+  },
+  container: {
+    backgroundColor: '#000000',
+  },
+  card: {
+    backgroundColor: '#000000',
+    borderWidth: 1,
+    borderColor: '#000000',
+    marginBottom: 10
+  },
+  listItem: {
+    backgroundColor: '#000000',
+  },
+  text: {
+    color: '#dbcd34',
+  },
+  button: {
+    color: '#008c8c',
+    textColor: '#dbcd34',
+  },
+});
+
 
 export default Profile;

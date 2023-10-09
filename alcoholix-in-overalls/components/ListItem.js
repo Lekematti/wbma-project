@@ -8,26 +8,28 @@ const ListItem = ({singleMedia, navigation}) => {
   return (
     <TouchableOpacity>
       <RNEListItem bottomDivider containerStyle={
-        { flexDirection: 'row',
+        { opacity: 0.9,
+          flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-between',
+          backgroundColor: '#000000'
         }}>
-        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+        <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', }}>
           <Avatar
             size={100}
             source={{ uri: mediaUrl + singleMedia.thumbnails.w160 }}
           />
-          <View style={{ flex: 1, marginLeft: 10 }}>
-            <RNEListItem.Title style={{ flex: 1 }}>{singleMedia.title}</RNEListItem.Title>
-            <RNEListItem.Subtitle style={{ flex: 1 }}>{singleMedia.description}</RNEListItem.Subtitle>
+          <View style={{ flex: 1, marginLeft: 10,  }}>
+            <RNEListItem.Title style={{ flex: 1, color: '#ffeb00'}}>{singleMedia.title}</RNEListItem.Title>
+            <RNEListItem.Subtitle style={{ flex: 1, color: '#ffeb00' }}>{singleMedia.description}</RNEListItem.Subtitle>
           </View>
         </View>
         <Button
-          color={'#626262'}
+          color={'#008c8c'}
           textColor={'#'}
           title="View"
           titleStyle={{
-            color: '#dbcd34',
+            color: '#ffeb00',
           }}
 
           onPress={() => {

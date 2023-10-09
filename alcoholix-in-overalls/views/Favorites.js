@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {FlatList, SafeAreaView} from 'react-native';
+import {FlatList, ImageBackground, SafeAreaView} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
 import {useFavourite} from '../hooks/ApiHooks';
@@ -13,6 +13,7 @@ const Favorites = ({navigation}) => {
   const {getFavouritesByToken} = useFavourite();
   const [favouritePosts, setFavouritePosts] = useState([])
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const back_IMAGE = require('../assets/beerPhoto2.png')
 
   const fetchUserLikes = async () => {
     try {
@@ -43,7 +44,16 @@ const Favorites = ({navigation}) => {
 
   return (
     <>
-      <SafeAreaView>
+      <ImageBackground
+        source={back_IMAGE}
+        style={{
+          height: 'auto',
+          width: 'auto',
+          resizeMode: "cover",
+          overflow: "hidden",
+          flex: 1
+        }}>
+        <SafeAreaView>
           {favouritePosts.length > 0 ? (
             <FlatList
               onRefresh={
@@ -59,8 +69,9 @@ const Favorites = ({navigation}) => {
           ) : (
             <Text>No liked posts found.</Text>
           )}
-      </SafeAreaView>
-      <StatusBar style="auto" />
+        </SafeAreaView>
+        <StatusBar style="auto"/>
+      </ImageBackground>
     </>
   );
 };
