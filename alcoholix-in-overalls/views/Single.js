@@ -290,7 +290,7 @@ const Single = ({route, navigation}) => {
             {/*/>*/}
           </ListItem>
           <ListItem>
-            <Text>Average Rating: {averageRating}</Text>
+            <Text>Average Rating: {averageRating.toFixed(2)}</Text>
           </ListItem>
           <ListItem>
             <Text>Your Rating: {myRating !== null ? myRating : 'Not Rated'}</Text>
