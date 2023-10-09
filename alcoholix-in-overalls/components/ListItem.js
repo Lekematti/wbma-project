@@ -7,7 +7,11 @@ import {TouchableOpacity, View} from 'react-native';
 const ListItem = ({singleMedia, navigation}) => {
   return (
     <TouchableOpacity>
-      <RNEListItem bottomDivider containerStyle={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+      <RNEListItem bottomDivider containerStyle={
+        { flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
         <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
           <Avatar
             size={100}
@@ -19,7 +23,13 @@ const ListItem = ({singleMedia, navigation}) => {
           </View>
         </View>
         <Button
+          color={'#626262'}
+          textColor={'#'}
           title="View"
+          titleStyle={{
+            color: '#dbcd34',
+          }}
+
           onPress={() => {
             console.log('touched', singleMedia.title);
             navigation.navigate('Single', singleMedia);

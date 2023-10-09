@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {FlatList, SafeAreaView, View,} from 'react-native';
+import {SafeAreaView,} from 'react-native';
 import {Text,} from '@rneui/themed';
 import List from '../components/List';
 import {StatusBar} from 'expo-status-bar';
@@ -16,13 +16,16 @@ const Home = ({navigation}) => {
   const [searchResults, setSearchResults] = useState([]); // State to store search results
 
 
+
+
   // Function to handle search
   const makeSearch = async () => {
     try {
       const token = await AsyncStorage.getItem('userToken');
       const searchData = await searchMedia({ title: searchTerm}, token);
       //console.log('Search Results:', searchData); // Debugging
-      setSearchResults(searchData);
+      const mySearch = searchData.filter();
+      setSearchResults(mySearch);
     } catch (error) {
       console.error(error.message);
     }
@@ -44,21 +47,17 @@ const Home = ({navigation}) => {
     loadMedia();
   }, []);
 
+
   return (
     <>
       <SafeAreaView>
         <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        <FlatList
-          data={searchResults}
-          keyExtractor={(item) => item.file_id.toString()}
-          renderItem={({ item }) => (
-            <View>
-              <Text>Title: {item.title}</Text>
-              <Text>Description: {item.description}</Text>
-            </View>
-          )}
-        />
-        <List navigation={navigation} mediaArray={mediaArray} />
+        {mediaArray.length > 0 ? (
+          <List navigation={navigation} mediaArray={mediaArray} />
+        ) : (
+          <Text>No posts found.</Text>
+        )}
+
       </SafeAreaView>
       <StatusBar style="auto" />
     </>

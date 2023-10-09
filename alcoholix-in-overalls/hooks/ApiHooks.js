@@ -71,7 +71,24 @@ const useMedia = (update, userLikes) => {
     }
   };
 
-  return {mediaArray, postMedia, loading, searchMedia, loadMedia};
+  const deleteMedia = async (fileId, token) => {
+    try{
+      const options = {
+        method: 'DELETE',
+        headers: {
+          'x-access-token': token,
+        },
+      };
+      const deleteResult = await doFetch(apiUrl + 'media/' + fileId, options);
+      return deleteResult;
+    }catch (error){
+      alert('Voit poistaa vain omia postauksiasi!!');
+      throw new Error('deleteMedia failed: Voit poistaa vain omia postauksiasi!!');
+
+    }
+  }
+
+  return {mediaArray, postMedia, loading, searchMedia, loadMedia, deleteMedia};
 };
 
 const useAuthentication = () => {
@@ -201,13 +218,11 @@ const useFavourite = () => {
     };
     const json = await doFetch(apiUrl + 'favourites', options);
 
-    const mediaFiles = await Promise.all(
+    return await Promise.all(
       json.map(async (item) => {
-        const fileData = await doFetch(apiUrl + 'media/' + item.file_id);
-        return fileData;
+        return await doFetch(apiUrl + 'media/' + item.file_id);
       }),
     );
-    return mediaFiles;
   };
 
   return {
