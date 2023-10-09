@@ -10,7 +10,6 @@ import {MainContext} from '../contexts/MainContext';
 const ProfileForm = ({user}) => {
   const {putUser, checkUsername, getUserByToken} = useUser();
   const {setUser} = useContext(MainContext);
-  console.log('ProfileForm', user);
   const {
     control,
     handleSubmit,

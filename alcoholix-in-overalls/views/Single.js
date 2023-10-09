@@ -5,7 +5,7 @@ import {formatDate} from '../utils/functions';
 import {Card, Icon, Text, ListItem, Button} from '@rneui/themed';
 import {Video} from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useFavourite, useRating, useUser} from '../hooks/ApiHooks';
+import {useFavourite, useMedia, useRating, useUser} from '../hooks/ApiHooks';
 import {MainContext} from '../contexts/MainContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
 import {ScrollView} from 'react-native';
@@ -18,6 +18,7 @@ const Single = ({route, navigation}) => {
   const [userRating, setUserRating] = useState(false)
   const {user, update, setUpdate} = useContext(MainContext);
   const {getUserById} = useUser();
+  const {deleteMedia} = useMedia()
   const {postFavourite, getFavouritesById, deleteFavourite} = useFavourite();
   const {postRating, getRatingsById, deleteRating} = useRating();
   const [likes, setLikes] = useState([]);
@@ -162,8 +163,6 @@ const Single = ({route, navigation}) => {
     console.log('-------------------------')
   };
 
-
-
   // get ratingsbyid
   const fetchRatings = async () => {
     console.log('hakee rating')
@@ -198,7 +197,6 @@ const Single = ({route, navigation}) => {
 
   useEffect(() => {
     fetchRatings();
-
   }, [userRating]);
 
   useEffect(() => {
@@ -224,6 +222,14 @@ const Single = ({route, navigation}) => {
       setAverageRating(average);
     }
   };
+
+  const deletePost = async () => {
+      const token = await AsyncStorage.getItem('userToken');
+      const response = await deleteMedia(fileId, token);
+      alert('Post deleted')
+      console.log(response, 'delete succes')
+  };
+
   // Show full image and metadata
   return (
       <ScrollView>
@@ -304,6 +310,12 @@ const Single = ({route, navigation}) => {
           <ListItem>
             <Icon name="save" />
             <Text>{Math.round(filesize / 1024)} kB</Text>
+          </ListItem>
+          <ListItem>
+            <Button
+              onPress={deletePost}
+              title={'Delete post!'}
+            />
           </ListItem>
         </Card>
       </ScrollView>

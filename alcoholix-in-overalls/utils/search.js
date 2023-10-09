@@ -5,10 +5,11 @@ import Icon from 'react-native-vector-icons/Ionicons';
 const SearchBar = ({ searchTerm, setSearchTerm }) => {
   return (
     <View style={styles.container}>
-      <Icon name="search" size={20} color="gray" />
+      <Icon name="search" size={20} color="#dbcd34" />
       <TextInput
         style={styles.input}
         placeholder="Search..."
+        placeholderTextColor="#dbcd34"
         value={searchTerm} // Bind the value to searchTerm
         onChangeText={(text) => setSearchTerm(text)} // Handle text input changes
         onSubmitEditing={() => {} /* You can add an onSubmitEditing function if needed */}

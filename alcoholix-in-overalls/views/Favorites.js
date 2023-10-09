@@ -7,7 +7,6 @@ import {Text} from "@rneui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ListItem from "../components/ListItem";
 import {MainContext} from "../contexts/MainContext";
-import { RefreshControl } from 'react-native';
 
 const Favorites = ({navigation}) => {
   const {update} = useContext(MainContext)
@@ -31,6 +30,7 @@ const Favorites = ({navigation}) => {
 
   const handleRefresh = () => {
     setIsRefreshing(true);
+    console.log('Refreshing...'); // Add this line
 
     // Fetch or update your data here
     fetchUserLikes()
@@ -46,17 +46,15 @@ const Favorites = ({navigation}) => {
       <SafeAreaView>
           {favouritePosts.length > 0 ? (
             <FlatList
+              onRefresh={
+                handleRefresh
+              }
+              refreshing={isRefreshing}
               data={favouritePosts}
               keyExtractor={(item) => item.file_id.toString()}
               renderItem={({ item }) => (
                 <ListItem navigation={navigation} singleMedia={item} />
               )}
-              refreshControl={
-                <RefreshControl
-                  refreshing={isRefreshing}
-                  onRefresh={handleRefresh}
-                />
-              }
             />
           ) : (
             <Text>No liked posts found.</Text>

@@ -68,8 +68,7 @@ const Upload = ({navigation}) => {
         },
       ]);
     } catch (error) {
-      console.log(error.message);
-      // TODO: notify user about failed upload
+      console.error(error.message);
     }
   };
 
@@ -85,10 +84,6 @@ const Upload = ({navigation}) => {
       allowsEditing: true,
       aspect: [4, 3],
     });
-
-    // purkka "Key "cancelled" in the image picker result is deprecated" -warningiin
-    // delete result.cancelled;
-    // console.log(result);
     if (!result.canceled) {
       setImage(result.assets[0].uri);
       setType(result.assets[0].type);
@@ -131,7 +126,7 @@ const Upload = ({navigation}) => {
       <Controller
         control={control}
         rules={{
-          minLength: {value: 10, message: 'min 10 characters'},
+          minLength: {value: 5, message: 'Min 5 characters'},
         }}
         render={({field: {onChange, onBlur, value}}) => (
           <Input

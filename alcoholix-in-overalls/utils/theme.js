@@ -65,4 +65,4 @@ const Colors = () =>  {
 }
 
 
-export default { light, dark, styling };
+export default { Colors, styling };
