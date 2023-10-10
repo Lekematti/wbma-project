@@ -91,6 +91,9 @@ const Home = ({navigation}) => {
           flex: 1
         }}>
         <SafeAreaView>
+          <View style={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', borderRadius: 10, padding: 5, marginLeft: 10 }}>
+            <Text>{mediaArray.length} posts</Text>
+          </View>
           <SearchBar searchTerm={searchTerm} setSearchTerm={setSearchTerm}/>
           {mediaArray.length > 0 ? (
             <List navigation={navigation} mediaArray={mediaArray}/>
