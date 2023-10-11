@@ -1,10 +1,11 @@
 import React, {useContext} from 'react';
 import {useUser} from '../hooks/ApiHooks';
 import {Controller, useForm} from 'react-hook-form';
-import {Card, Button, Input} from '@rneui/themed';
-import {Alert} from 'react-native';
+import {Card, Button, Input, Text, Icon} from '@rneui/themed';
+import {Alert, StyleSheet, TouchableOpacity} from 'react-native';
 import PropTypes from 'prop-types';
 import {MainContext} from "../contexts/MainContext";
+import {LinearGradient} from "expo-linear-gradient";
 
 const RegisterForm = ({setToggleRegister}) => {
   const { setUser } = useContext(MainContext); // Access the user information from the context
@@ -33,8 +34,8 @@ const RegisterForm = ({setToggleRegister}) => {
   };
 
   return (
-    <Card>
-      <Card.Title>Registration Form</Card.Title>
+    <Card containerStyle={styles.card}>
+      <Card.Title style={styles.text}>Registration Form</Card.Title>
       <Controller
         control={control}
         rules={{
@@ -58,6 +59,7 @@ const RegisterForm = ({setToggleRegister}) => {
             value={value}
             errorMessage={errors.username?.message}
             autoCapitalize="none"
+            color={'#ffe800'}
           />
         )}
         name="username"
@@ -76,6 +78,7 @@ const RegisterForm = ({setToggleRegister}) => {
             value={value}
             secureTextEntry={true}
             errorMessage={errors.password?.message}
+            color={'#ffe800'}
           />
         )}
         name="password"
@@ -98,6 +101,7 @@ const RegisterForm = ({setToggleRegister}) => {
             value={value}
             secureTextEntry={true}
             errorMessage={errors.confirm_password?.message}
+            color={'#ffe800'}
           />
         )}
         name="confirm_password"
@@ -119,6 +123,7 @@ const RegisterForm = ({setToggleRegister}) => {
             onChangeText={onChange}
             value={value}
             errorMessage={errors.email?.message}
+            color={'#ffe800'}
           />
         )}
         name="email"
@@ -133,14 +138,49 @@ const RegisterForm = ({setToggleRegister}) => {
             onChangeText={onChange}
             value={value}
             errorMessage={errors.full_name?.message}
+            color={'#ffe800'}
           />
         )}
         name="full_name"
       />
-      <Button title="Register!" onPress={handleSubmit(register)} />
+        <TouchableOpacity
+            onPress={handleSubmit(register)}>
+            <LinearGradient
+                style={styles.linearGradient}
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 1}}
+                colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
+                <Text style={styles.buttonText}>Register</Text>
+                <Icon name="app-registration" color='#000000' />
+            </LinearGradient>
+        </TouchableOpacity>
     </Card>
   );
 };
+
+const styles= StyleSheet.create({
+    card: {
+        backgroundColor: '#000000',
+        borderWidth: 1,
+        borderColor: '#000000',
+        marginBottom: 10
+    },
+    text: {
+        textAlign: "center",
+        color: '#ffe800',
+    },
+    linearGradient: {
+        borderRadius: 5,
+        marginBottom: 10,
+        padding: 10,
+
+    },
+    buttonText:{
+        textAlign: "center",
+        color: '#000000',
+    }
+});
+
 
 RegisterForm.propTypes = {
   setToggleRegister: PropTypes.func,

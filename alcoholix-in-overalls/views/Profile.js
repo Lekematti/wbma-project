@@ -80,7 +80,6 @@ const Profile = (props) => {
             <Icon name="upgrade" color='#000000' />
           </LinearGradient>
         </TouchableOpacity>
-
         <ProfileForm />
 
       </Card>

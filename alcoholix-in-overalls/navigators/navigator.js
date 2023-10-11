@@ -81,7 +81,11 @@ const Stackscreen = () => {
                     <Stack.Screen name="Single" component={Single}/>
                 </>
             ) : (
-                <Stack.Screen name="Login/Register" component={Login}/>
+                <Stack.Screen
+                    name="Login/Register"
+                    component={Login}
+                    options={{headerShown: false}}
+                />
             )}
         </Stack.Navigator>
     );
