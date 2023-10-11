@@ -3,13 +3,14 @@ import {MainContext} from '../contexts/MainContext';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useTag} from '../hooks/ApiHooks';
 import {mediaUrl} from '../utils/app-config';
-import {Button, Card, Icon, ListItem} from '@rneui/themed';
+import { Card, Icon, ListItem, Text} from '@rneui/themed';
 import ProfileForm from '../components/ProfileForm';
-import {ScrollView, StyleSheet} from 'react-native';
+import {ScrollView, StyleSheet, TouchableOpacity} from 'react-native';
+import {LinearGradient} from "expo-linear-gradient";
 
 
 const Profile = (props) => {
-  const [avatar, setAvatar] = useState('http://placekitten.com/640');
+  const [avatar, setAvatar] = useState('https://users.metropolia.fi/~leokos/%20Web-pohjaiset-mobiilisovellukset/project/pics/beerPhoto2.png');
   const {getFilesByTag} = useTag();
   const {setIsLoggedIn, user} = useContext(MainContext);
   const logOut = async () => {
@@ -36,36 +37,50 @@ const Profile = (props) => {
   }, []);
 
   return (
-    <ScrollView style={{backgroundColor: '#ffeb00'}}>
+    <ScrollView style={{backgroundColor: '#000000'}}>
       <Card containerStyle={styles.card}>
         <Card.Title style={styles.text}>{user.username}</Card.Title>
-        <Card.Image source={{uri: avatar}} />
-        <ListItem>
-          <Icon name="email" />
+        <Card.Image style={styles.image} source={{uri: avatar}} />
+        <ListItem containerStyle={styles.listItem}>
+          <Icon name="email" color='#ffe800'/>
           <ListItem.Title style={styles.text}>{user.email}</ListItem.Title>
         </ListItem>
         {user.full_name && (
-          <ListItem>
-            <Icon name="person" />
+          <ListItem containerStyle={styles.listItem}>
+            <Icon name="person" color='#ffe800'/>
             <ListItem.Title style={styles.text}>{user.full_name}</ListItem.Title>
           </ListItem>
         )}
-        <ListItem>
+        <ListItem containerStyle={styles.listItem}>
+          <Icon name='fingerprint' color='#ffe800'/>
           <ListItem.Title style={styles.text}>user id: {user.user_id}</ListItem.Title>
         </ListItem>
         <Card.Divider />
-        <ListItem>
-          <Button title="Log out!" onPress={logOut}>
-          Log out!
-          <Icon name="logout" color="white" />
-        </Button>
-        </ListItem>
-       <ListItem>
-         <Button title="Load avatar" onPress={loadAvatar}>
-           Load avatar
-           <Icon name="loadavatar" color="white" />
-         </Button>
-       </ListItem>
+
+          <TouchableOpacity
+              onPress={logOut}>
+            <LinearGradient
+                style={styles.linearGradient}
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 1}}
+                colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
+              <Text style={styles.buttonText}>Log out!</Text>
+              <Icon name="logout" color='#000000' />
+            </LinearGradient>
+          </TouchableOpacity>
+
+        <TouchableOpacity
+            onPress={loadAvatar}>
+          <LinearGradient
+              style={styles.linearGradient}
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 1}}
+              colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
+            <Text style={styles.buttonText}>Load avatar</Text>
+            <Icon name="upgrade" color='#000000' />
+          </LinearGradient>
+        </TouchableOpacity>
+
         <ProfileForm />
 
       </Card>
@@ -74,8 +89,10 @@ const Profile = (props) => {
   );
 };
 
-const styles = StyleSheet.create({
+const styles= StyleSheet.create({
   image: {
+    borderColor: '#ffee00',
+    borderWidth: 1,
     width: '100%',
     height: undefined,
     aspectRatio: 1,
@@ -95,12 +112,19 @@ const styles = StyleSheet.create({
     backgroundColor: '#000000',
   },
   text: {
-    color: '#dbcd34',
+    textAlign: "center",
+    color: '#ffe800',
   },
-  button: {
-    color: '#008c8c',
-    textColor: '#dbcd34',
+  linearGradient: {
+    borderRadius: 5,
+    marginBottom: 10,
+    padding: 10,
+
   },
+    buttonText:{
+        textAlign: "center",
+        color: '#000000',
+    }
 });
 
 

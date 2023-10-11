@@ -15,66 +15,84 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 const Tabscreen = () => {
-  return (
-    <Tab.Navigator>
-      <Tab.Screen
-        name="Home"
-        component={Home}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="home" color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Favorites"
-        component={Favorites}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="bookmark" color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Upload"
-        component={Upload}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="cloud-upload" color={color} />,
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={Profile}
-        options={{
-          tabBarIcon: ({color}) => <Icon name="badge" color={color} />,
-        }}
-      />
-    </Tab.Navigator>
-  );
+    return (
+        <Tab.Navigator
+            screenOptions={{
+              headerStyle: {backgroundColor: 'black'},
+              headerTitleStyle: {color: '#ffec00'},
+                headerShown: false,
+
+            }}>
+            <Tab.Screen
+                name="Home"
+                component={Home}
+                options={{
+                    tabBarStyle:{backgroundColor: 'black',borderWidth: 0,color:'#ffec00'},
+                    tabBarIcon: ({}) => <Icon name="home" color={'#ffec00'}/>,
+                }}
+
+            />
+            <Tab.Screen
+                name="Favorites"
+                component={Favorites}
+                options={{
+                    tabBarStyle:{backgroundColor: 'black',borderWidth: 0,color:'#ffec00'},
+                    tabBarIcon: ({}) => <Icon name="bookmark" color={'#ffec00'}/>,
+                }}
+            />
+            <Tab.Screen
+                name="Upload"
+                component={Upload}
+                options={{
+                    tabBarStyle:{backgroundColor: 'black',borderWidth: 0,color:'#ffec00'},
+                    tabBarIcon: ({}) => <Icon name="cloud-upload" color={'#ffec00'}/>,
+                }}
+            />
+            <Tab.Screen
+              style={{backgroundColor: '#000000'}}
+                name="Profile"
+                component={Profile}
+                options={{
+                    tabBarStyle:{backgroundColor: 'black',borderWidth: 0,color:'#ffec00'},
+                    tabBarIcon: ({}) => <Icon name="badge" color={'#ffec00'}/>,
+                }}
+
+            />
+        </Tab.Navigator>
+    );
 };
 
 const Stackscreen = () => {
-  const {isLoggedIn} = useContext(MainContext);
-  return (
-    <Stack.Navigator>
-      {isLoggedIn ? (
-        <>
-          <Stack.Screen
-            name="Tabs"
-            component={Tabscreen}
-            options={{headerShown: false}}
-          />
-          <Stack.Screen name="Single" component={Single} />
-        </>
-      ) : (
-        <Stack.Screen name="Login/Register" component={Login} />
-      )}
-    </Stack.Navigator>
-  );
+    const {isLoggedIn} = useContext(MainContext);
+    return (
+        <Stack.Navigator screenOptions={{
+            headerStyle: {backgroundColor: 'black'},
+            headerTitleStyle: {color: '#ffec00'},
+
+        }}
+        >
+            {isLoggedIn ? (
+                <>
+                    <Stack.Screen
+                        name="Tabs"
+                        component={Tabscreen}
+                        options={{headerShown: false}}
+                    />
+                    <Stack.Screen name="Single" component={Single}/>
+                </>
+            ) : (
+                <Stack.Screen name="Login/Register" component={Login}/>
+            )}
+        </Stack.Navigator>
+    );
 };
 
 const Navigator = () => {
-  return (
-    <NavigationContainer>
-      <Stackscreen />
-    </NavigationContainer>
-  );
+    return (
+        <NavigationContainer>
+            <Stackscreen/>
+        </NavigationContainer>
+    );
 };
 
 export default Navigator;
