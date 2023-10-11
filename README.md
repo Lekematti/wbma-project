@@ -45,13 +45,13 @@ Projektin aiheena on medianvälitys-sovellus.
 ![App Screenshot](https://users.metropolia.fi/~leokos/%20Web-pohjaiset-mobiilisovellukset/project/demo%20pics/favorites.jpg)
 ####
 #
-9: Upload sivulla voit tehdä uuden julkaisun videon/kuvan (pakollinen), title on myös pakollinen (min 3), mutta descriptio on vapaaehtoinen.
+9: Upload sivulla voit tehdä uuden julkaisun, video tai kuva pakollinen, title on myös pakollinen (min 3), mutta descriptio on vapaaehtoinen.
 ![App Screenshot](https://users.metropolia.fi/~leokos/%20Web-pohjaiset-mobiilisovellukset/project/demo%20pics/upload.jpg)
 ####
 #
 10: Profile sivulta löydät tietoa omasta profiilistasi.
 ![App Screenshot](https://users.metropolia.fi/~leokos/%20Web-pohjaiset-mobiilisovellukset/project/demo%20pics/profile.jpg)
 #
-Sekä voit siellä muokata näitä tietoja.
+Voit myös muokata omia tietojasi.
 ![App Screenshot](https://users.metropolia.fi/~leokos/%20Web-pohjaiset-mobiilisovellukset/project/demo%20pics/uptade-profile.jpg)
 
