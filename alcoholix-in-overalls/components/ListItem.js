@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import {mediaUrl} from '../utils/app-config';
-import {Avatar, Button, Card, ListItem as RNEListItem, Text} from '@rneui/themed';
+import {Avatar, Card, ListItem as RNEListItem, Text} from '@rneui/themed';
 import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import {LinearGradient} from "expo-linear-gradient";
@@ -17,7 +17,7 @@ const ListItem = ({singleMedia, navigation}) => {
                     backgroundColor: '#000000'
                 }}>
 
-                    <View style={{ alignItems: 'center', marginBottom: 20,}}>
+                    <View style={{alignItems: 'center', marginBottom: 20,}}>
                         <RNEListItem.Title style={{
                             color: '#ffeb00',
                             borderRadius: 5,
@@ -45,7 +45,7 @@ const ListItem = ({singleMedia, navigation}) => {
                                     borderColor: '#ffeb00',
                                 }}
                                 size={100}
-                                source={{ uri: mediaUrl + singleMedia.thumbnails.w160 }}
+                                source={{uri: mediaUrl + singleMedia.thumbnails.w160}}
                             />
                         </View>
 
@@ -55,8 +55,8 @@ const ListItem = ({singleMedia, navigation}) => {
                         }}>
                             <LinearGradient
                                 style={styles.linearGradient}
-                                start={{ x: 0, y: 0 }}
-                                end={{ x: 1, y: 1 }}
+                                start={{x: 0, y: 0}}
+                                end={{x: 1, y: 1}}
                                 colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
                                 <Text style={styles.text}>View</Text>
                             </LinearGradient>

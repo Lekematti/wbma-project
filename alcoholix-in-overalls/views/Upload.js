@@ -94,107 +94,106 @@ const Upload = ({navigation}) => {
     };
 
 
-
     return (
-<ScrollView>
-        <ImageBackground
-            source={back_IMAGE}
-            style={{
-                height: 'auto',
-                width: 'auto',
-                resizeMode: "cover",
-                overflow: "hidden",
-                flex: 1
-            }}>
-            <Card containerStyle={styles.card}>
-                {type === 'image' ? (
-                    <Card.Image
-                        source={{uri: image}}
-                        style={styles.image}
-                        onPress={pickImage}
-                    />
-                ) : (
-                    <Video
-                        source={{uri: image}}
-                        style={styles.video}
-                        useNativeControls={true}
-                    />
-                )}
-                <Controller
-                    control={control}
-                    rules={{
-                        required: {value: true, message: 'is required'},
-                    }}
-                    render={({field: {onChange, onBlur, value}}) => (
-                        <Input
-                            style={{color: '#ffeb00'}}
-                            placeholder="Title"
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                            errorMessage={errors.title?.message}
+        <ScrollView>
+            <ImageBackground
+                source={back_IMAGE}
+                style={{
+                    height: 'auto',
+                    width: 'auto',
+                    resizeMode: "cover",
+                    overflow: "hidden",
+                    flex: 1
+                }}>
+                <Card containerStyle={styles.card}>
+                    {type === 'image' ? (
+                        <Card.Image
+                            source={{uri: image}}
+                            style={styles.image}
+                            onPress={pickImage}
+                        />
+                    ) : (
+                        <Video
+                            source={{uri: image}}
+                            style={styles.video}
+                            useNativeControls={true}
                         />
                     )}
-                    name="title"
-                />
+                    <Controller
+                        control={control}
+                        rules={{
+                            required: {value: true, message: 'is required'},
+                        }}
+                        render={({field: {onChange, onBlur, value}}) => (
+                            <Input
+                                style={{color: '#ffeb00'}}
+                                placeholder="Title"
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                                errorMessage={errors.title?.message}
+                            />
+                        )}
+                        name="title"
+                    />
 
-                <Controller
-                    control={control}
-                    rules={{
-                        minLength: {value: 5, message: 'Min 5 characters'},
-                    }}
-                    render={({field: {onChange, onBlur, value}}) => (
-                        <Input
-                            style={{color: '#ffeb00'}}
-                            placeholder="Description (optional)"
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                            errorMessage={errors.description?.message}
-                        />
-                    )}
-                    name="description"
-                />
-                <TouchableOpacity
-                    onPress={pickImage}>
-                    <LinearGradient
-                        style={styles.linearGradient}
-                        start={{x: 0, y: 0}}
-                        end={{x: 1, y: 1}}
-                        colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
-                        <Text style={styles.buttonText}>Choose image</Text>
-                    </LinearGradient>
-                </TouchableOpacity>
+                    <Controller
+                        control={control}
+                        rules={{
+                            minLength: {value: 5, message: 'Min 5 characters'},
+                        }}
+                        render={({field: {onChange, onBlur, value}}) => (
+                            <Input
+                                style={{color: '#ffeb00'}}
+                                placeholder="Description (optional)"
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                                errorMessage={errors.description?.message}
+                            />
+                        )}
+                        name="description"
+                    />
+                    <TouchableOpacity
+                        onPress={pickImage}>
+                        <LinearGradient
+                            style={styles.linearGradient}
+                            start={{x: 0, y: 0}}
+                            end={{x: 1, y: 1}}
+                            colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
+                            <Text style={styles.buttonText}>Choose image</Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
 
 
-                <TouchableOpacity
-                    onPress={resetForm}>
-                    <LinearGradient
-                        style={styles.linearGradient}
-                        start={{x: 0, y: 0}}
-                        end={{x: 1, y: 1}}
-                        colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
-                        <Text style={styles.buttonText}>Reset</Text>
-                    </LinearGradient>
-                </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={resetForm}>
+                        <LinearGradient
+                            style={styles.linearGradient}
+                            start={{x: 0, y: 0}}
+                            end={{x: 1, y: 1}}
+                            colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
+                            <Text style={styles.buttonText}>Reset</Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
 
 
-                <TouchableOpacity
-                    onPress={handleSubmit(upload)}>
+                    <TouchableOpacity
+                        onPress={handleSubmit(upload)}>
 
-                    <LinearGradient
-                        style={styles.linearGradient}
-                        start={{x: 0, y: 0}}
-                        end={{x: 1, y: 1}}
-                        colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
-                        <Text style={styles.buttonText}>Upload</Text>
-                    </LinearGradient>
-                </TouchableOpacity>
+                        <LinearGradient
+                            style={styles.linearGradient}
+                            start={{x: 0, y: 0}}
+                            end={{x: 1, y: 1}}
+                            colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
+                            <Text style={styles.buttonText}>Upload</Text>
+                        </LinearGradient>
+                    </TouchableOpacity>
 
-            </Card>
-            <StatusBar style="auto"/>
-        </ImageBackground>
-</ScrollView>
+                </Card>
+                <StatusBar style="auto"/>
+            </ImageBackground>
+        </ScrollView>
 
     );
 };
@@ -213,7 +212,7 @@ const styles = StyleSheet.create({
     },
     video: {
         aspectRatio: 1,
-        resizeMode:'center',
+        resizeMode: 'center',
     },
     container: {
         backgroundColor: '#000000',

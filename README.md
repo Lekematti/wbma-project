@@ -3,7 +3,7 @@ Projektin aiheena on medianvälitys-sovellus.
 ## Kehittäjät
 - [Leo Koskimäki](https://github.com/Lekematti)
 - [Atte Kilpeläinen](https://github.com/kurjaakoodia)
-- [Aapeli Väisänen]()
+- [Aapeli Väisänen](https://github.com/aapelii)
 
 
 # Ohjeet Sovelluksen käyttöön.

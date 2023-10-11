@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {useUser} from '../hooks/ApiHooks';
 import {Controller, useForm} from 'react-hook-form';
-import {Card, Button, Input, Text, Icon} from '@rneui/themed';
+import {Card, Input, Text, Icon} from '@rneui/themed';
 import {Alert, StyleSheet, TouchableOpacity} from 'react-native';
 import {PropTypes} from 'prop-types';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -34,7 +34,7 @@ const ProfileForm = ({user}) => {
             }
             const token = await AsyncStorage.getItem('userToken');
             const updateResult = await putUser(updateData, token);
-            console.log('registeration result', updateResult);
+            console.log('registration result', updateResult);
             Alert.alert('Success', updateResult.message);
             // päivitä käyttäjän tiedot ruudulla
             const userData = await getUserByToken(token);
@@ -163,7 +163,7 @@ const ProfileForm = ({user}) => {
                     end={{x: 1, y: 1}}
                     colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
                     <Text style={styles.buttonText}>Update</Text>
-                    <Icon name="upgrade" color='#000000' />
+                    <Icon name="upgrade" color='#000000'/>
                 </LinearGradient>
             </TouchableOpacity>
         </Card>

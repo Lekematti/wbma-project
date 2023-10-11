@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {ImageBackground, SafeAreaView, ScrollView, TextInput, View,} from 'react-native';
-import {Card, Icon, Input, Text,} from '@rneui/themed';
+import {Card, Icon,} from '@rneui/themed';
 import List from '../components/List';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
@@ -10,33 +10,26 @@ import ListItem from "../components/ListItem";
 
 
 const Home = ({navigation}) => {
-
     const {loadMedia, searchMedia, mediaArray} = useMedia(); // Use the useSearch hook
-
     const [searchTerm, setSearchTerm] = useState(''); // State for search term
-
     const [searchResults, setSearchResults] = useState([]); // State to store search results
-
     const [searchQuery, setSearchQuery] = useState('');
-
     const [showList, setShowList] = useState(true);
-
     const back_IMAGE = require('../assets/beerPhoto2.png')
 
-
-    // Function to handle search
-    const makeSearch = async () => {
-        try {
-            const token = await AsyncStorage.getItem('userToken');
-            const searchData = await searchMedia({title: searchTerm}, token);
-            //console.log('Search Results:', searchData); // Debugging
-            const mySearch = searchData.filter(mediaArray);
-
-            setSearchResults(mySearch);
-        } catch (error) {
-            console.error(error.message);
-        }
-    };
+    // // Function to handle search
+    // const makeSearch = async () => {
+    //     try {
+    //         const token = await AsyncStorage.getItem('userToken');
+    //         const searchData = await searchMedia({title: searchTerm}, token);
+    //         //console.log('Search Results:', searchData); // Debugging
+    //         const mySearch = searchData.filter(mediaArray);
+    //
+    //         setSearchResults(mySearch);
+    //     } catch (error) {
+    //         console.error(error.message);
+    //     }
+    // };
 
     useEffect(() => {
         if (searchQuery !== '') {
@@ -65,7 +58,7 @@ const Home = ({navigation}) => {
                 overflow: "hidden",
                 flex: 1
             }}>
-            <SafeAreaView style={{ flex: 1,marginBottom: 0}}>
+            <SafeAreaView style={{flex: 1, marginBottom: 0}}>
                 <Card containerStyle={{
                     backgroundColor: '#000000',
                     borderWidth: 1,
@@ -76,7 +69,8 @@ const Home = ({navigation}) => {
                 }}>
                     <View style={{
                         flexDirection: 'row',
-                        alignItems: 'center' }}>
+                        alignItems: 'center'
+                    }}>
                         <Icon
                             name="search"
                             color="#ffec00"
@@ -87,7 +81,7 @@ const Home = ({navigation}) => {
                                 padding: 5,
                                 marginLeft: 5,
                             }}
-                            placeholder="Search"
+                            placeholder="Search                                                                           "
                             placeholderTextColor="#ffec00"
                             onChangeText={setSearchQuery}
                             value={searchQuery}
@@ -95,16 +89,16 @@ const Home = ({navigation}) => {
                     </View>
                 </Card>
                 {showList ? (
-                    <List navigation={navigation} mediaArray={mediaArray} />
+                    <List navigation={navigation} mediaArray={mediaArray}/>
                 ) : (
                     <ScrollView>
                         {searchResults.map((item) => (
-                            <ListItem navigation={navigation} singleMedia={item} />
+                            <ListItem navigation={navigation} singleMedia={item}/>
                         ))}
                     </ScrollView>
                 )}
             </SafeAreaView>
-            <StatusBar style="auto" />
+            <StatusBar style="auto"/>
         </ImageBackground>
     );
 };

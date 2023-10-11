@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useRef, useState} from 'react';
 import PropTypes from 'prop-types';
 import {mediaUrl} from '../utils/app-config';
 import {formatDate} from '../utils/functions';
-import {Card, Icon, Text, ListItem, Button} from '@rneui/themed';
+import {Card, Icon, Text, ListItem} from '@rneui/themed';
 import {Video} from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFavourite, useMedia, useRating, useUser} from '../hooks/ApiHooks';
@@ -89,7 +89,6 @@ const Single = ({route, navigation}) => {
                 }
             },
         );
-
         return () => {
             ScreenOrientation.removeOrientationChangeListener(orientSub);
             lockOrientation();
@@ -99,7 +98,6 @@ const Single = ({route, navigation}) => {
 
     // add favourite
     const createFavourite = async () => {
-
         try {
             const token = await AsyncStorage.getItem('userToken');
             const response = await postFavourite({file_id: fileId}, token);
@@ -136,7 +134,6 @@ const Single = ({route, navigation}) => {
                 if (like.user_id === user.user_id) {
                     setUserLike(true);
                 }
-                //console.log(likesData)
             });
         } catch (error) {
             console.error(error.message);
@@ -191,7 +188,6 @@ const Single = ({route, navigation}) => {
             const response = await deleteRating(fileId, token);
             response && setUserRating(false);
         } catch (error) {
-            //console.error(error.message);
         }
         console.log('-------------------------')
     };
@@ -213,7 +209,6 @@ const Single = ({route, navigation}) => {
         }
     }, [ratings]);
 
-
     const calculateAverageRating = () => {
         if (ratings.length === 0) {
             setAverageRating(0);
@@ -230,8 +225,6 @@ const Single = ({route, navigation}) => {
         alert('Post deleted')
         console.log(response, 'delete succes')
     };
-
-    // Show full image and metadata
 
     // Show full image and metadata
     return (
@@ -276,16 +269,16 @@ const Single = ({route, navigation}) => {
                     </ListItem>
                     <ListItem containerStyle={styles.listItem}>
                         {userLike ? (
-                                <TouchableOpacity
-                                    onPress={removeFavourite}>
-                                    <LinearGradient
-                                        style={styles.linearGradient}
-                                        start={{x: 0, y: 0}}
-                                        end={{x: 1, y: 1}}
-                                        colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
-                                        <Text style={styles.buttonText}>Remove from favorites</Text>
-                                    </LinearGradient>
-                                </TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={removeFavourite}>
+                                <LinearGradient
+                                    style={styles.linearGradient}
+                                    start={{x: 0, y: 0}}
+                                    end={{x: 1, y: 1}}
+                                    colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
+                                    <Text style={styles.buttonText}>Remove from favorites</Text>
+                                </LinearGradient>
+                            </TouchableOpacity>
                         ) : (
                             <TouchableOpacity
                                 onPress={createFavourite}>
@@ -354,7 +347,7 @@ const Single = ({route, navigation}) => {
                         </TouchableOpacity>
                     </ListItem>
                     <ListItem containerStyle={styles.listItem}>
-                        <Icon name="save"  color='#ffe800' />
+                        <Icon name="save" color='#ffe800'/>
                         <Text style={styles.text}>{Math.round(filesize / 1024)} kB</Text>
                     </ListItem>
                 </Card.Divider>
@@ -393,7 +386,7 @@ const styles = StyleSheet.create({
 
         backgroundColor: '#000000',
     },
-    listRating:{
+    listRating: {
         backgroundColor: '#000000',
         margin: 5,
         alignItems: "center"

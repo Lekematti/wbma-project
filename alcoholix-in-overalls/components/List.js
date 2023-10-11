@@ -3,7 +3,6 @@ import ListItem from './ListItem';
 import PropTypes from 'prop-types';
 import React, {useContext, useState} from "react";
 import {MainContext} from "../contexts/MainContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const List = ({navigation, mediaArray,}) => {
 

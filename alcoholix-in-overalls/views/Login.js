@@ -6,8 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useUser} from '../hooks/ApiHooks';
 import LoginForm from '../components/LoginForm';
 import RegisterForm from '../components/RegisterForm';
-import {Button} from '@rneui/base';
-import {Card, Icon, Text} from "@rneui/themed";
+import {Card, Text} from "@rneui/themed";
 import {LinearGradient} from "expo-linear-gradient";
 
 const Login = ({navigation}) => {
@@ -42,7 +41,7 @@ const Login = ({navigation}) => {
             style={{flex: 1, backgroundColor: 'black'}}
             activeOpacity={1}
         >
-            <Card containerStyle={{backgroundColor: 'black', borderColor: '#ffe800', marginTop:100}}>
+            <Card containerStyle={{backgroundColor: 'black', borderColor: '#ffe800', marginTop: 100}}>
                 <KeyboardAvoidingView
                     behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 >

@@ -18,8 +18,8 @@ const Tabscreen = () => {
     return (
         <Tab.Navigator
             screenOptions={{
-              headerStyle: {backgroundColor: 'black'},
-              headerTitleStyle: {color: '#ffec00'},
+                headerStyle: {backgroundColor: 'black'},
+                headerTitleStyle: {color: '#ffec00'},
                 headerShown: false,
 
             }}>
@@ -27,7 +27,7 @@ const Tabscreen = () => {
                 name="Home"
                 component={Home}
                 options={{
-                    tabBarStyle:{backgroundColor: 'black',borderWidth: 0,color:'#ffec00'},
+                    tabBarStyle: {backgroundColor: 'black', borderWidth: 0, color: '#ffec00'},
                     tabBarIcon: ({}) => <Icon name="home" color={'#ffec00'}/>,
                 }}
 
@@ -36,7 +36,7 @@ const Tabscreen = () => {
                 name="Favorites"
                 component={Favorites}
                 options={{
-                    tabBarStyle:{backgroundColor: 'black',borderWidth: 0,color:'#ffec00'},
+                    tabBarStyle: {backgroundColor: 'black', borderWidth: 0, color: '#ffec00'},
                     tabBarIcon: ({}) => <Icon name="bookmark" color={'#ffec00'}/>,
                 }}
             />
@@ -44,16 +44,16 @@ const Tabscreen = () => {
                 name="Upload"
                 component={Upload}
                 options={{
-                    tabBarStyle:{backgroundColor: 'black',borderWidth: 0,color:'#ffec00'},
+                    tabBarStyle: {backgroundColor: 'black', borderWidth: 0, color: '#ffec00'},
                     tabBarIcon: ({}) => <Icon name="cloud-upload" color={'#ffec00'}/>,
                 }}
             />
             <Tab.Screen
-              style={{backgroundColor: '#000000'}}
+                style={{backgroundColor: '#000000'}}
                 name="Profile"
                 component={Profile}
                 options={{
-                    tabBarStyle:{backgroundColor: 'black',borderWidth: 0,color:'#ffec00'},
+                    tabBarStyle: {backgroundColor: 'black', borderWidth: 0, color: '#ffec00'},
                     tabBarIcon: ({}) => <Icon name="badge" color={'#ffec00'}/>,
                 }}
 

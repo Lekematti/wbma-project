@@ -3,7 +3,7 @@ import {FlatList, ImageBackground, SafeAreaView} from 'react-native';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
 import {useFavourite} from '../hooks/ApiHooks';
-import {Card, Text} from "@rneui/themed";
+import {Text} from "@rneui/themed";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import ListItem from "../components/ListItem";
 import {MainContext} from "../contexts/MainContext";
@@ -44,36 +44,36 @@ const Favorites = ({navigation}) => {
 
     return (
 
-            <ImageBackground
-                source={back_IMAGE}
-                style={{
-                    height: 'auto',
-                    width: 'auto',
-                    resizeMode: "cover",
-                    overflow: "hidden",
-                    flex: 1
-                }}>
-                <SafeAreaView>
+        <ImageBackground
+            source={back_IMAGE}
+            style={{
+                height: 'auto',
+                width: 'auto',
+                resizeMode: "cover",
+                overflow: "hidden",
+                flex: 1
+            }}>
+            <SafeAreaView>
 
-                    {favouritePosts.length > 0 ? (
-                        <FlatList style={{marginTop:50}}
-                            onRefresh={
-                                handleRefresh
-                            }
-                            refreshing={isRefreshing}
-                            data={favouritePosts}
-                            keyExtractor={(item) => item.file_id.toString()}
-                            renderItem={({item}) => (
-                                <ListItem navigation={navigation} singleMedia={item}/>
-                            )}
-                        />
-                    ) : (
-                        <Text>No liked posts found.</Text>
-                    )}
+                {favouritePosts.length > 0 ? (
+                    <FlatList style={{marginTop: 50}}
+                              onRefresh={
+                                  handleRefresh
+                              }
+                              refreshing={isRefreshing}
+                              data={favouritePosts}
+                              keyExtractor={(item) => item.file_id.toString()}
+                              renderItem={({item}) => (
+                                  <ListItem navigation={navigation} singleMedia={item}/>
+                              )}
+                    />
+                ) : (
+                    <Text>No liked posts found.</Text>
+                )}
 
-                </SafeAreaView>
-                <StatusBar style="auto"/>
-            </ImageBackground>
+            </SafeAreaView>
+            <StatusBar style="auto"/>
+        </ImageBackground>
 
     );
 };
