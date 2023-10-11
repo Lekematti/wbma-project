@@ -283,7 +283,7 @@ const Single = ({route, navigation}) => {
                                         start={{x: 0, y: 0}}
                                         end={{x: 1, y: 1}}
                                         colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
-                                        <Text style={styles.text}>Remove from favorites</Text>
+                                        <Text style={styles.buttonText}>Remove from favorites</Text>
                                     </LinearGradient>
                                 </TouchableOpacity>
                         ) : (
