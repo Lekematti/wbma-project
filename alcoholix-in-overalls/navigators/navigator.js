@@ -18,8 +18,6 @@ const Tabscreen = () => {
     return (
         <Tab.Navigator
             screenOptions={{
-                headerStyle: {backgroundColor: 'black'},
-                headerTitleStyle: {color: '#ffec00'},
                 headerShown: false,
 
             }}>
@@ -56,7 +54,6 @@ const Tabscreen = () => {
                     tabBarStyle: {backgroundColor: 'black', borderWidth: 0, color: '#ffec00'},
                     tabBarIcon: ({}) => <Icon name="badge" color={'#ffec00'}/>,
                 }}
-
             />
         </Tab.Navigator>
     );
@@ -65,11 +62,15 @@ const Tabscreen = () => {
 const Stackscreen = () => {
     const {isLoggedIn} = useContext(MainContext);
     return (
-        <Stack.Navigator screenOptions={{
-            headerStyle: {backgroundColor: 'black'},
-            headerTitleStyle: {color: '#ffec00'},
-
-        }}
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: true,
+            headerStyle: {backgroundColor: 'black', },
+            headerTitleStyle: {color: '#ffed00', fontSize: 30},
+            headerTitleAlign: 'center',
+            backTitle: null,
+            headerTintColor: '#ffed00'
+          }}
         >
             {isLoggedIn ? (
                 <>
@@ -78,13 +79,24 @@ const Stackscreen = () => {
                         component={Tabscreen}
                         options={{headerShown: false}}
                     />
-                    <Stack.Screen name="Single" component={Single}/>
+                    <Stack.Screen
+                      screenOptions={{
+                        headerShown: true,
+                      }}
+                      name="Single"
+                      component={Single}/>
                 </>
             ) : (
                 <Stack.Screen
-                    name="Login/Register"
+                  screenOptions={{
+                    headerStyle: {backgroundColor: 'black'},
+
+
+
+                  }}
+                    name="Alcoholix In overalls"
                     component={Login}
-                    options={{headerShown: false}}
+                    options={{headerShown: true}}
                 />
             )}
         </Stack.Navigator>
@@ -98,5 +110,6 @@ const Navigator = () => {
         </NavigationContainer>
     );
 };
+
 
 export default Navigator;

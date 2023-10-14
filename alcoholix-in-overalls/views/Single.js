@@ -226,13 +226,17 @@ const Single = ({route, navigation}) => {
         console.log(response, 'delete succes')
     };
 
-    // Show full image and metadata
+  useEffect(() => {
+    // Aseta otsikko navigaatiopalkkiin
+    navigation.setOptions({ title: route.params.title, });
+  }, [route.params.title]);
+
+
+  // Show full image and metadata
     return (
         <ScrollView style={{backgroundColor: '#000000'}}>
             <Card containerStyle={styles.card}>
                 <Card.Divider style={styles.cardDivider}>
-                    <Card.Title style={styles.text}>{title}</Card.Title>
-                    <Card.Divider style={styles.cardDivider}>
                         {mediaType === 'image' ? (
                             <Card.Image
                                 source={{uri: mediaUrl + filename}}
@@ -253,8 +257,7 @@ const Single = ({route, navigation}) => {
                                 ref={videoRef}
                             />
                         )}
-                    </Card.Divider>
-                    <ListItem containerStyle={styles.listItem}>
+                    <ListItem containerStyle={styles.description}>
                         <Icon name='description' color='#ffe800'/>
                         <Text style={styles.text}>{description}</Text>
                     </ListItem>
@@ -334,22 +337,30 @@ const Single = ({route, navigation}) => {
                 </Card.Divider>
                 <Card.Divider style={styles.cardDivider}>
                     <ListItem containerStyle={styles.listItem}>
+                      {user.username === owner.username  ? (
                         <TouchableOpacity
-                            onPress={deletePost}>
-                            <LinearGradient
-                                style={styles.linearGradient}
-                                start={{x: 0, y: 0}}
-                                end={{x: 1, y: 1}}
-                                colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
-                                <Text style={styles.buttonText}>Delete post!</Text>
-                                <Icon name={'delete-forever'} color='#000000'></Icon>
-                            </LinearGradient>
+                          onPress={deletePost}>
+                          <LinearGradient
+                            style={styles.linearGradient}
+                            start={{x: 0, y: 0}}
+                            end={{x: 1, y: 1}}
+                            colors={['#d5af24', '#c09c24', '#ffea00', '#ff9900', '#F77737']}>
+                            <Text style={styles.buttonText}>Delete post!</Text>
+                            <Icon name={'delete-forever'} color='#000000'></Icon>
+                          </LinearGradient>
+                          <ListItem containerStyle={styles.listItem}>
+                            <Icon name="save" color='#ffe800'/>
+                            <Text style={styles.text}>{Math.round(filesize / 1024)} kB</Text>
+                          </ListItem>
                         </TouchableOpacity>
+                      ) : (
+                        <ListItem containerStyle={styles.listItem}>
+                          <Icon name="save" color='#ffe800'/>
+                          <Text style={styles.text}>{Math.round(filesize / 1024)} kB</Text>
+                        </ListItem>
+                      )}
                     </ListItem>
-                    <ListItem containerStyle={styles.listItem}>
-                        <Icon name="save" color='#ffe800'/>
-                        <Text style={styles.text}>{Math.round(filesize / 1024)} kB</Text>
-                    </ListItem>
+
                 </Card.Divider>
             </Card>
         </ScrollView>
@@ -362,8 +373,9 @@ const styles = StyleSheet.create({
         backgroundColor: '#000000',
     },
     image: {
-        borderColor: '#ffee00',
-        borderWidth: 1,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
+        borderColor: '#ffeb00',
         height: 600,
         width: '100%',
         marginBottom: 15,
@@ -374,7 +386,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#000000',
         borderWidth: 1,
         borderColor: '#000000',
-        marginBottom: 10
+        marginBottom: 10,
     },
     cardDivider: {
         backgroundColor: '#000000',
@@ -383,7 +395,6 @@ const styles = StyleSheet.create({
         marginBottom: 10
     },
     listItem: {
-
         backgroundColor: '#000000',
     },
     listRating: {
@@ -395,8 +406,18 @@ const styles = StyleSheet.create({
     text: {
         textAlign: "center",
         color: '#ffeb00',
-
     },
+  title: {
+    textAlign: "center",
+    color: '#ffeb00',
+    marginTop: 10,
+    fontSize: 25,
+  },
+  description: {
+    backgroundColor: '#000000',
+    flexWrap: "wrap",
+    display: "flex",
+  },
     linearGradient: {
         borderRadius: 5,
         marginBottom: 10,

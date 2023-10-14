@@ -5,31 +5,16 @@ import List from '../components/List';
 import {StatusBar} from 'expo-status-bar';
 import PropTypes from 'prop-types';
 import {useMedia} from "../hooks/ApiHooks";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import ListItem from "../components/ListItem";
 
 
 const Home = ({navigation}) => {
-    const {loadMedia, searchMedia, mediaArray} = useMedia(); // Use the useSearch hook
-    const [searchTerm, setSearchTerm] = useState(''); // State for search term
+    const {loadMedia, mediaArray} = useMedia(); // Use the useSearch hook
     const [searchResults, setSearchResults] = useState([]); // State to store search results
     const [searchQuery, setSearchQuery] = useState('');
     const [showList, setShowList] = useState(true);
     const back_IMAGE = require('../assets/beerPhoto2.png')
-
-    // // Function to handle search
-    // const makeSearch = async () => {
-    //     try {
-    //         const token = await AsyncStorage.getItem('userToken');
-    //         const searchData = await searchMedia({title: searchTerm}, token);
-    //         //console.log('Search Results:', searchData); // Debugging
-    //         const mySearch = searchData.filter(mediaArray);
-    //
-    //         setSearchResults(mySearch);
-    //     } catch (error) {
-    //         console.error(error.message);
-    //     }
-    // };
 
     useEffect(() => {
         if (searchQuery !== '') {
