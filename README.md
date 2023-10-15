@@ -6,15 +6,18 @@ Projektin aiheena on medianvälitys-sovellus.
 - [Aapeli Väisänen](https://github.com/aapelii)
 
 # Muutoksia
-1. Lisätty Sovelluksen nimi kirjautumis-/rekisteröitymissivulle.
-2. Home.js poistettu käyttämätöntä koodia ja turhia commentteja.
-3. Single view.
+1. Yleistä.
+- Poistettu käyttämätöntä koodia ja turhia commentteja.
+2. kirjautumis-/rekisteröitymissivu.
+- Lisätty sovelluksen nimi.
+3. Home view.
+- Refresh Korjattu.
+4. Single view.
 - Muutettu Title kokoa.
 - Title näkyy headerissa.
 - Imagen ympäroimä borderwidth korjattu
-- Descriptio korjattu ei enään clippaa reunojen yli.
+- Descriptio korjattu, ei enää clippaa reunojen yli.
 - Delete post näkyy nyt vain postauksen omistajalle.
-
 
 # Ohjeet Sovelluksen käyttöön.
 1: Navigoi oikeaan tiedostosijaintiin wbma-project -> alcoholix-in-overalls.
